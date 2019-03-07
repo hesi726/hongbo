@@ -8,7 +8,7 @@ using System.Text;
 namespace hongbao.privileges
 {
     /// <summary>
-    /// Enum的工具类
+    /// Enum的工具类  
     /// </summary>
      internal static class EnumUtil
     {
