@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Mvc.Filters;
-using System.Web.Routing;
+
 
 namespace hongbao.privileges
 {
@@ -13,74 +10,15 @@ namespace hongbao.privileges
     /// MVC 执行， 
     /// 对  AuthorizationContext 或者  ActionExecutedContext 进行权限的类
     /// </summary>
-    public class ExecuteContextAuthen
+    public partial class ExecuteContextAuthen
     {
-#region 构造函数和初始化
-        /// <summary>
-        /// 执行上下文的构造函数
-        /// </summary>
-        /// <param name="filterContext"></param>
-        /// <param name="user"></param>
-        public ExecuteContextAuthen(AuthorizationContext filterContext, IPrivilegeJudge user)
-        {
-            actionDescriptor = filterContext.ActionDescriptor;
-            controllerDescriptor = actionDescriptor.ControllerDescriptor;
-            this.privilegeJudge = user;
-            Initiate(filterContext.RouteData, filterContext.RequestContext.HttpContext.Request);
-        }
+       
 
-        /// <summary>
-        /// 执行上下文的构造函数
-        /// </summary>
-        /// <param name="filterContext"></param>
-        /// <param name="user"></param>
-        public ExecuteContextAuthen(AuthenticationContext filterContext, IPrivilegeJudge user)
-        {
-            actionDescriptor = filterContext.ActionDescriptor;
-            controllerDescriptor = actionDescriptor.ControllerDescriptor;
-            this.privilegeJudge = user;
-            Initiate(filterContext.RouteData, filterContext.RequestContext.HttpContext.Request);
-        }
-
-        /// <summary>
-        /// 执行上下文的构造函数
-        /// </summary>
-        /// <param name="filterContext"></param>
-        /// <param name="user"></param>
-        public ExecuteContextAuthen(ActionExecutedContext filterContext, IPrivilegeJudge user)
-        {
-            actionDescriptor = filterContext.ActionDescriptor;
-            controllerDescriptor = actionDescriptor.ControllerDescriptor;
-            this.privilegeJudge = user;
-            Initiate(filterContext.RouteData, filterContext.RequestContext.HttpContext.Request);
-        }
-
-        /// <summary>
-        /// 执行上下文的构造函数
-        /// </summary>
-        /// <param name="filterContext"></param>
-        /// <param name="user"></param>
-        public ExecuteContextAuthen(ActionExecutingContext filterContext, IPrivilegeJudge user)
-        {
-            actionDescriptor = filterContext.ActionDescriptor;
-            controllerDescriptor = actionDescriptor.ControllerDescriptor;
-            this.privilegeJudge = user;
-            Initiate(filterContext.RouteData, filterContext.RequestContext.HttpContext.Request);
-        }
-#endregion
-
-        /// <summary>
-        /// Action的描述对象
-        /// </summary>
-        ActionDescriptor actionDescriptor;
-        /// <summary>
-        /// Controller的描述对象
-        /// </summary>
-        ControllerDescriptor controllerDescriptor;
         ///// <summary>
         ///// Controller的请求对象;
         ///// </summary>
         //HttpRequestBase request;
+
         ///// <summary>
         ///// 路由对象
         ///// </summary>
@@ -93,21 +31,11 @@ namespace hongbao.privileges
         ///// 路由对象中的Action名称
         ///// </summary>
         //string actionName;
+
         /// <summary>
         /// 当前会话中的权限判断对象;
         /// </summary>
-        IPrivilegeJudge privilegeJudge;
-
-        /// <summary>
-        /// 初始化;
-        /// </summary>
-        private void Initiate(RouteData routeData, HttpRequestBase request)
-        {
-            //routeData = filterContext.RouteData;
-            //request = filterContext.RequestContext.HttpContext.Request;
-            //controlName = routeData.Values["controller"] + "";
-            //actionName  = routeData.Values["action"] + "";
-        }
+        IPrivilegeJudge privilegeJudge = null;
 
         /// <summary>
         /// 验证用户是否有权限;
@@ -115,10 +43,10 @@ namespace hongbao.privileges
         /// <returns></returns>
         public EnumAuthenResult Authen(IParceAuthenTypeAccordParameterName authenTypeParcer)
         {
-            if (privilegeJudge!=null && privilegeJudge.IsAdministrator()) return EnumAuthenResult.Authened;
+            if (privilegeJudge != null && privilegeJudge.IsAdministrator()) return EnumAuthenResult.Authened;
             var authenResult = AuthenAcion(authenTypeParcer);
             if (authenResult.HasValue)
-            {                
+            {
                 return ConvertAuthenResult(authenResult.Value);
             }
             authenResult = AuthenConroller(authenTypeParcer);
@@ -141,38 +69,7 @@ namespace hongbao.privileges
             else return EnumAuthenResult.NotAuthened; 
         }
 
-        /// <summary>
-        /// 对 Action 进行授权;
-        /// 获取Action所有的 PrivilegeDescAttribute或者AuthenQueryAttribute或者AuthenModifyAttribute的定义,
-        /// 并判断用户是否有权限访问;
-        /// </summary>
-        /// <returns>null-未定义任何权限Attribute, true-定义了权限Attribute且用户有权限访问, false-定义了权限Attribute且用户无权限访问,</returns>
-        private bool? AuthenAcion(IParceAuthenTypeAccordParameterName authenTypeParcer)
-        {
-            var attributes = actionDescriptor.GetCustomAttributes(true)
-                .Where(a => a is AbstractAllowAttribute || a is AuthenQueryAttribute || a is AuthenModifyAttribute)
-                .ToArray();
-            return AuthenAttributes(attributes, authenTypeParcer);
-        }
-
-        /// <summary>
-        /// 对 Controller 进行授权;
-        /// 获取Action所有的 PrivilegeDescAttribute或者AuthenQueryAttribute或者AuthenModifyAttribute的定义,
-        /// 并判断用户是否有权限访问;
-        /// </summary>
-        private bool? AuthenConroller(IParceAuthenTypeAccordParameterName authenTypeParcer)
-        {
-            var attributes = controllerDescriptor.GetCustomAttributes(true)
-                .Where(a => a is AbstractAllowAttribute || a is AuthenQueryAttribute || a is AuthenModifyAttribute)
-                .OrderBy(a=>  //排一下序，当同时定义有多个时，先处理 允许修改，
-                {
-                    if (a is AuthenModifyAttribute) return 1;
-                    else if (a is AuthenQueryAttribute) return 2;
-                    else return 3;
-                })
-                .ToArray();
-            return AuthenAttributes(attributes, authenTypeParcer);
-        }
+        
 
         /// <summary>
         /// 验证 Action上定义的属性或者Controller上定义的属性
@@ -183,7 +80,7 @@ namespace hongbao.privileges
         /// <returns>null, 没有满足条件的 验证属性定义; </returns>
         private bool? AuthenAttributes(object[] attributes, IParceAuthenTypeAccordParameterName authenTypeParcer)
         {
-            if (ArrayUtil.IsNullOrEmpty(attributes))
+            if (attributes==null || attributes.Length == 0)
                 return null;
             return attributes.Any((attribute) =>
             {
@@ -237,17 +134,7 @@ namespace hongbao.privileges
                 }
                 if (parameterType == null) // 无法查找到类型，根据方法的参数类型去查找枚举方法的类型; 
                 {
-                    if (this.actionDescriptor != null)
-                    {
-                        var parameter = this.actionDescriptor.GetParameters().FirstOrDefault(a => a.ParameterName == inParameterName);
-                        if (parameter != null)
-                        {
-                            if (parameter.ParameterType.IsEnum)
-                            {
-                                parameterType = parameter.ParameterType;
-                            }
-                        }
-                    }
+                    parameterType = GetEnumTypeAccordParameterName(inParameterName);
                 }
             }
             if (parameterType == null) return false; //未获取到类型，无效参数，返回 false;

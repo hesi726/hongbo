@@ -76,7 +76,7 @@
     <Compile Include="ClassAllowQueryAttribute.cs" />
     <Compile Include="EntityQueryAttribute.cs" />
     <Compile Include="EnumAuthenResult.cs" />
-    <Compile Include="ExecuteContextAuthen.cs" />
+    <Compile Include="ExecuteContextAuthen.Framework.cs" />
     <Compile Include="IAllowAccess.cs" />
     <Compile Include="IAuthenTypeAccordParameter.cs" />
     <Compile Include="IParceAuthenTypeAccordParameterName.cs" />

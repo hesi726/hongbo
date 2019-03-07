@@ -1,13 +1,11 @@
 ﻿
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Mvc.Filters;
+using System.Web.Routing;
 
 namespace hongbao.privileges
 {
@@ -23,25 +21,26 @@ namespace hongbao.privileges
         /// </summary>
         /// <param name="filterContext"></param>
         /// <param name="user"></param>
-        public ExecuteContextAuthen(FilterContext filterContext, IPrivilegeJudge user)
+        public ExecuteContextAuthen(AuthorizationContext filterContext, IPrivilegeJudge user)
         {
-            actionDescriptor = filterContext.ActionDescriptor as ControllerActionDescriptor; ;
+            actionDescriptor = filterContext.ActionDescriptor;
+            controllerDescriptor = actionDescriptor.ControllerDescriptor;
             this.privilegeJudge = user;
-            Initiate(filterContext.RouteData, filterContext.HttpContext.Request);
+            Initiate(filterContext.RouteData, filterContext.RequestContext.HttpContext.Request);
         }
 
-        ///// <summary>
-        ///// 执行上下文的构造函数
-        ///// </summary>
-        ///// <param name="filterContext"></param>
-        ///// <param name="user"></param>
-        //public ExecuteContextAuthen(AuthenticationContext filterContext, IPrivilegeJudge user)
-        //{
-        //    actionDescriptor = filterContext.ActionDescriptor as ControllerActionDescriptor; ;
-        //    //controllerDescriptor = actionDescriptor.ControllerDescriptor;
-        //    this.privilegeJudge = user;
-        //    Initiate(filterContext.RouteData, filterContext.RequestContext.HttpContext.Request);
-        //}
+        /// <summary>
+        /// 执行上下文的构造函数
+        /// </summary>
+        /// <param name="filterContext"></param>
+        /// <param name="user"></param>
+        public ExecuteContextAuthen(AuthenticationContext filterContext, IPrivilegeJudge user)
+        {
+            actionDescriptor = filterContext.ActionDescriptor;
+            controllerDescriptor = actionDescriptor.ControllerDescriptor;
+            this.privilegeJudge = user;
+            Initiate(filterContext.RouteData, filterContext.RequestContext.HttpContext.Request);
+        }
 
         /// <summary>
         /// 执行上下文的构造函数
@@ -50,10 +49,10 @@ namespace hongbao.privileges
         /// <param name="user"></param>
         public ExecuteContextAuthen(ActionExecutedContext filterContext, IPrivilegeJudge user)
         {
-            actionDescriptor = filterContext.ActionDescriptor as ControllerActionDescriptor;
-          //  controllerDescriptor = actionDescriptor.ControllerDescriptor;
+            actionDescriptor = filterContext.ActionDescriptor;
+            controllerDescriptor = actionDescriptor.ControllerDescriptor;
             this.privilegeJudge = user;
-            Initiate(filterContext.RouteData, filterContext.HttpContext.Request);
+            Initiate(filterContext.RouteData, filterContext.RequestContext.HttpContext.Request);
         }
 
         /// <summary>
@@ -61,24 +60,23 @@ namespace hongbao.privileges
         /// </summary>
         /// <param name="filterContext"></param>
         /// <param name="user"></param>
-        public ExecuteContextAuthen(
-ActionExecutingContext filterContext, IPrivilegeJudge user)
+        public ExecuteContextAuthen(ActionExecutingContext filterContext, IPrivilegeJudge user)
         {
-            actionDescriptor = filterContext.ActionDescriptor as ControllerActionDescriptor;
-            controllerDescriptor = (filterContext.Controller as Controller);
+            actionDescriptor = filterContext.ActionDescriptor;
+            controllerDescriptor = actionDescriptor.ControllerDescriptor;
             this.privilegeJudge = user;
-            Initiate(filterContext.RouteData, filterContext.HttpContext.Request);
+            Initiate(filterContext.RouteData, filterContext.RequestContext.HttpContext.Request);
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Action的描述对象
         /// </summary>
-        ControllerActionDescriptor actionDescriptor;
+        ActionDescriptor actionDescriptor;
         /// <summary>
         /// Controller的描述对象
         /// </summary>
-        Controller controllerDescriptor;
+        ControllerDescriptor controllerDescriptor;
         ///// <summary>
         ///// Controller的请求对象;
         ///// </summary>
@@ -103,7 +101,7 @@ ActionExecutingContext filterContext, IPrivilegeJudge user)
         /// <summary>
         /// 初始化;
         /// </summary>
-        private void Initiate(RouteData routeData, HttpRequest request)
+        private void Initiate(RouteData routeData, HttpRequestBase request)
         {
             //routeData = filterContext.RouteData;
             //request = filterContext.RequestContext.HttpContext.Request;
@@ -151,7 +149,7 @@ ActionExecutingContext filterContext, IPrivilegeJudge user)
         /// <returns>null-未定义任何权限Attribute, true-定义了权限Attribute且用户有权限访问, false-定义了权限Attribute且用户无权限访问,</returns>
         private bool? AuthenAcion(IParceAuthenTypeAccordParameterName authenTypeParcer)
         {
-            var attributes = actionDescriptor.MethodInfo.GetCustomAttributes(true)
+            var attributes = actionDescriptor.GetCustomAttributes(true)
                 .Where(a => a is AbstractAllowAttribute || a is AuthenQueryAttribute || a is AuthenModifyAttribute)
                 .ToArray();
             return AuthenAttributes(attributes, authenTypeParcer);
@@ -164,7 +162,7 @@ ActionExecutingContext filterContext, IPrivilegeJudge user)
         /// </summary>
         private bool? AuthenConroller(IParceAuthenTypeAccordParameterName authenTypeParcer)
         {
-            var attributes = actionDescriptor.MethodInfo.DeclaringType.GetCustomAttributes(true)
+            var attributes = controllerDescriptor.GetCustomAttributes(true)
                 .Where(a => a is AbstractAllowAttribute || a is AuthenQueryAttribute || a is AuthenModifyAttribute)
                 .OrderBy(a=>  //排一下序，当同时定义有多个时，先处理 允许修改，
                 {
@@ -185,7 +183,7 @@ ActionExecutingContext filterContext, IPrivilegeJudge user)
         /// <returns>null, 没有满足条件的 验证属性定义; </returns>
         private bool? AuthenAttributes(object[] attributes, IParceAuthenTypeAccordParameterName authenTypeParcer)
         {
-            if (ArrayUtil.IsNullOrEmpty(attributes))
+            if (attributes == null || attributes.Length == 0)
                 return null;
             return attributes.Any((attribute) =>
             {
@@ -241,7 +239,7 @@ ActionExecutingContext filterContext, IPrivilegeJudge user)
                 {
                     if (this.actionDescriptor != null)
                     {
-                        var parameter = this.actionDescriptor.Parameters.FirstOrDefault(a => a.Name == inParameterName);
+                        var parameter = this.actionDescriptor.GetParameters().FirstOrDefault(a => a.ParameterName == inParameterName);
                         if (parameter != null)
                         {
                             if (parameter.ParameterType.IsEnum)
