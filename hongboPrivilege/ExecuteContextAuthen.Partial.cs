@@ -39,6 +39,25 @@ namespace hongbao.privileges
 
         /// <summary>
         /// 验证用户是否有权限;
+        /// 1. 按照如下步骤验证 Action:
+        /// 获取 Action 上的方法所定义的如下类型的 Attribute (AbstractAllowAttribute、AuthenQueryAttribute、AuthenModifyAttribute）,
+        /// 如果未定义任何 Attribute, 跳到第2步；
+        /// 1.1 判断当前传入的 权限判断对象 判断能否访问 其中的某一个 Attribute, 如果能够访问，返回授权；
+        /// 1.1.1  对于 AbstractAllowAttribute， 调用 AbstractAllowAttribute 的 AllowAccess 方法 
+        /// 1.1.2  对于 AuthenQueryAttribute ， 根据其  InputParameterName 属性从 Request 或者 RouteData 中获取参数类型和参数值，
+        /// 并根据参数值 和 传入的 authenTypeParcer实例 解析成类型        
+        /// 1.1.2.1 如果能够解析到类型，则如果类型上定义有 ClassAllowQuery 标注，则如果 当前权限对象 允许访问 ClassAllowQuery，返回授权;        
+        /// 1.1.2.2 如果不能解析为类型，但是  参数类型 为 Enum 类型,
+        ///         根据参数值解析成 Enum值，并判断此值上是否定义有 ClassAllowQuery标注，判断 当前权限对象  允许访问 ClassAllowQuery，返回授权;   
+        /// 1.1.2  对于 AuthenModifyAttribute ， 根据其  InputParameterName 属性从 Request 或者 RouteData 中获取参数类型和参数值，
+        /// 并根据参数值 和 传入的 authenTypeParcer实例 解析成类型        
+        /// 1.1.2.1 如果能够解析到类型，则如果类型上定义有 ClassAllowModify 标注，则如果 当前权限对象 允许访问 ClassAllowModify，返回授权;        
+        /// 1.1.2.2 如果不能解析为类型，但是  参数类型 为 Enum 类型,
+        ///         根据参数值解析成 Enum值，并判断此值上是否定义有 ClassAllowQuery标注，判断 当前权限对象  允许访问 ClassAllowQuery，返回授权;          
+        /// 1.2 如果不能访问，返回未授权 或者 未登录
+        /// 
+        /// 2. 按照如上步骤判断 Action 所归属的 Controller, 
+        /// 获取 Controller 上的方法所定义的如下类型的 Attribute (AbstractAllowAttribute、AuthenQueryAttribute、AuthenModifyAttribute）
         /// </summary>
         /// <returns></returns>
         public EnumAuthenResult Authen(IParceAuthenTypeAccordParameterName authenTypeParcer)

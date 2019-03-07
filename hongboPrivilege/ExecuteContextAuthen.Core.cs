@@ -27,9 +27,12 @@ namespace hongbao.privileges
         /// <param name="user"></param>
         public ExecuteContextAuthen(FilterContext filterContext, IPrivilegeJudge user)
         {
-            actionDescriptor = filterContext.ActionDescriptor as ControllerActionDescriptor; ;
+            if (filterContext != null)
+            {
+                actionDescriptor = filterContext.ActionDescriptor as ControllerActionDescriptor; ;
+                Initiate(filterContext.RouteData, filterContext.HttpContext.Request);
+            }
             this.privilegeJudge = user;
-            Initiate(filterContext.RouteData, filterContext.HttpContext.Request);
         }
 
         ///// <summary>
@@ -63,8 +66,7 @@ namespace hongbao.privileges
         /// </summary>
         /// <param name="filterContext"></param>
         /// <param name="user"></param>
-        public ExecuteContextAuthen(
-ActionExecutingContext filterContext, IPrivilegeJudge user)
+        public ExecuteContextAuthen(ActionExecutingContext filterContext, IPrivilegeJudge user)
         {
             actionDescriptor = filterContext.ActionDescriptor as ControllerActionDescriptor;
             controllerDescriptor = (filterContext.Controller as Controller);
