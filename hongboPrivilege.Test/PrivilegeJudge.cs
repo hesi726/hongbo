@@ -44,15 +44,24 @@ namespace hongboPrivilege.Test
 
 
     /// <summary>
-    /// 禁止所有操作的类：
+    /// 允许进行用户查询的权限判断对象
     /// </summary>
-    public class UserWith : DefaultPrivilegeJudge
+    public class UserWithUserQueryPrivilege : DefaultPrivilegeJudge
     {
-        public virtual bool HasPrivilege(string privilege)
+        public override bool HasPrivilege(string privilege)
         {
             return (privilege == TestConst.Privilege_UserQuery);
         }
     }
 
-
+    /// <summary>
+    /// 允许进行用户修改的权限判断对象
+    /// </summary>
+    public class UserWithUserModifyPrivilege : DefaultPrivilegeJudge
+    {
+        public override bool HasPrivilege(string privilege)
+        {
+            return (privilege == TestConst.Privilege_UserModify);
+        }
+    }
 }

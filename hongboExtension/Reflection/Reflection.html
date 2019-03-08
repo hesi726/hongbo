@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        textarea { width:100%; height:100%;}
+        table { height: 700px;}
+    </style>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td width="45%">
+                <textarea   id="original">
+
+                </textarea>
+            </td>
+            <td width="10%">
+                <input type="text" id="varId" placeholder="请输入内部变量名称" value="this.database"/>
+                <input type="button" onclick="convert()" value="转换" />
+            </td>
+            <td width="45%">
+                <textarea id="convertedContent"></textarea>
+            </td>
+            
+        </tr>
+    </table>
+    <script language="javascript">
+        function convert() {
+            var content = document.getElementById("original").value;
+            var callVar = document.getElementById("varId").value;
+            /*public override RedisValue StringGetSet(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)
+        {
+            throw new NotImplementedException();
+        }*/
+            var throwString = "throw new NotImplementedException()";
+            var throwStringLength = throwString.length; 
+            while (content.indexOf(throwString) >= 0) {
+                var lastPos = content.lastIndexOf(throwString);
+                var publicPos = content.lastIndexOf("public", lastPos);
+                var priorBegin = content.indexOf("(", publicPos);
+                var priorEnd = content.lastIndexOf(")", lastPos);
+                var parString = content.substring(priorBegin + 1, priorEnd);
+                var parArray = parString.split(",");
+                var callString = "";
+                var priorSpacePos = content.lastIndexOf(" ", priorBegin);
+                var methodName = content.substring(priorSpacePos + 1, priorBegin); 
+                for (var index = 0; index < parArray.length; index++) {
+                    var one = parArray[index];
+                    var pos = one.indexOf("=");
+                    if (pos >= 0) one = one.substring(0, pos);
+                    while (one.endsWith(" ")) one = one.substring(0, one.length - 1);
+                    var parName = one.substring(one.lastIndexOf(" "));
+                    callString += "," + parName;
+                }
+                if (callString.length > 0) callString = callString.substring(1);
+                callString = callVar + "." + methodName+"(" + callString + ")";
+                var withReturn = content.substring(publicPos, priorEnd).indexOf("void") < 0;
+                if (withReturn) callString = " return " + callString;
+                content = content.substring(0, lastPos) + callString + content.substring(lastPos + throwStringLength);
+            }
+            document.getElementById("convertedContent").value = content;
+        }
+    </script>
+</body>
+</html>
