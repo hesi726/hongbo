@@ -44,6 +44,22 @@ namespace hongbao.CollectionExtension
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static object Find(System.Collections.IList array, Func<object, bool> func)
+        {
+            int count = array.Count;
+            for (var index = 0; index < count; index++)
+            {
+                var ele = array[index];
+                if (func(ele)) return ele;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// 是否具有逻辑上的不同项;
         /// </summary>
         /// <typeparam name="T"></typeparam>

@@ -328,9 +328,43 @@ namespace hongbao.Expressions
         /// <param name="first"></param>
         /// <param name="second"></param>
         /// <returns></returns>
-        public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
+        public static Expression<Func<T, K>> And<T,K>(this Expression<Func<T, K>> first, Expression<Func<T, K>> second)
         {
             return first.Compose(second, Expression.And);
+        }
+
+        /// <summary>
+        /// 对表达式进行 And 操作
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Expression<Func<T, bool>> And<T>(params Expression<Func<T, bool>>[] expressions)
+        {
+            return And<T, bool>(expressions);
+            //var first = expressions[0];
+            //for (var index = 1; index < expressions.Length; index++)
+            //{
+            //    first = And(first, expressions[index]);
+            //}
+            //return first;
+        }
+
+        /// <summary>
+        /// 对表达式进行 And 操作
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        ///  <typeparam name="K"></typeparam>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static Expression<Func<T, K>> And<T, K>(params Expression<Func<T, K>>[] expressions)
+        {
+            var first = expressions[0];
+            for (var index = 1; index < expressions.Length; index++)
+            {
+                first = And(first, expressions[index]);
+            }
+            return first;
         }
 
         /// <summary>

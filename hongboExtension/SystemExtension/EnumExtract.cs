@@ -1,4 +1,5 @@
-﻿using hongbaoStandardExtension.CollectionExtension;
+﻿using hongbao.CollectionExtension;
+using hongbaoStandardExtension.CollectionExtension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace hongbao.SystemExtension
             int ot;
             if (Int32.TryParse(val, out ot)) return GetValue(enumType, ot);
             var values = Enum.GetValues(enumType);
-            return ArrayUtil.Find(values, value => value.ToString() == val);
+            return IListExtension.Find(values, value => value.ToString() == val);
         }
         /// <summary>
         /// 根据整数数字获取枚举类型的值;

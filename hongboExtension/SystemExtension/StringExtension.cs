@@ -94,6 +94,18 @@ namespace hongbao.SystemExtension
         }
 
         /// <summary>
+        /// Trim后，如果字符串是空字符串，返回 null, 否则，返回 Trim之后的字符串;
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string TrimToNull(string source)
+        {
+            if (source == null) return null;
+            source = source.Trim();
+            if (source == "") return null;
+            return source;
+        }
+        /// <summary>
         /// 在源字符串中寻找 beginstr 开头后, 第一个endstr位置的字符串，并替换成 targetstr字符串;
         /// </summary>
         /// <param name="source">源字符串</param>
@@ -471,7 +483,8 @@ namespace hongbao.SystemExtension
                     endIndex = source.IndexOf(end, beginIndex + beginLen);
                 }
                 if (endIndex < 0) break;
-                string beginEndString = source.Substring(beginIndex, endIndex - beginIndex + endLen);  //替换字符串
+                string beginEndString = source.Substring(beginIndex, endIndex - beginIndex + endLen);  //替换字符串
+
                 string handeledString = targetstr; //
                 source = source.Substring(0, beginIndex) + handeledString + source.Substring(endIndex + endLen);
                 replaceCount++;
@@ -520,7 +533,8 @@ namespace hongbao.SystemExtension
                     endIndex = source.IndexOf(end, beginIndex + beginLen);
                 }
                 if (endIndex < 0) break;
-                string beginEndString = source.Substring(beginIndex, endIndex - beginIndex + endLen);  //替换字符串
+                string beginEndString = source.Substring(beginIndex, endIndex - beginIndex + endLen);  //替换字符串
+
                 string handeledString = aHandle(beginEndString); //
                 source = source.Substring(0, beginIndex) + handeledString + source.Substring(endIndex + endLen);
                 //为避免死循环，因为处理不一定是替换，也可能是追加字符串，而　ｂｅｇｉｎ　仍然存在于原有的字符串中                         
