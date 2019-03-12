@@ -133,38 +133,8 @@ namespace hongbao.CollectionExtension
         }
         #endregion
 
-        /// <summary>
-        /// 交换值； 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="coll"></param>
-        /// <param name="pos1"></param>
-        /// <param name="pos2"></param>
-        public static void Swap<T>(this IList<T> coll, int pos1, int pos2)
-        {
-            T element = coll[pos1];
-            coll[pos1] = coll[pos2];
-            coll[pos2] = element;
-        }
+       
 
-        /// <summary>
-        /// 将列表里面的元素随机重排；
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="loopCount">随机重排次数，默认为2，越多越随机； </param>
-        public static void RandomRearrange<T>(this IList<T> list, int loopCount=2)
-        {
-            var random = new Random(); //
-            while (loopCount --  > 0)
-            {
-                int length = list.Count;
-                while (length > 1)
-                {
-                    list.Swap(random.Next(0, length), length - 1);
-                    length--;
-                }
-            }
-        }
+       
     }
 }

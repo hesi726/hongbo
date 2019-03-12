@@ -42,14 +42,5 @@ namespace hongbaoStandardExtension.CollectionExtension
     /// </summary>
     public static class IListUtil
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="array"></param>
-        /// <returns></returns>
-        public static bool IsNullOrEmpty<T>(IList<T> array)
-        {
-            return array == null || array.Count == 0;
-        }
     }
 }

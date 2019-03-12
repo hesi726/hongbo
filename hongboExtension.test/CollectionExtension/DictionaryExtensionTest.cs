@@ -8,17 +8,12 @@ using System.Linq;
 namespace hongboExtensionsTests.CollectionExtension
 {
     /// <summary>
-    /// ICollectionExtensionTest 的摘要说明
+    /// DictionaryExtensionTest 的摘要说明
     /// </summary>
     [TestClass]
-    public class ICollectionExtensionTest
+    public class DictionaryExtensionTest
     {
-        public ICollectionExtensionTest()
-        {
-            //
-            //TODO:  在此处添加构造函数逻辑
-            //
-        }
+        
 
         private TestContext testContextInstance;
 
@@ -61,19 +56,24 @@ namespace hongboExtensionsTests.CollectionExtension
         #endregion
 
         [TestMethod]
-        public void Testsum()
+        public void FindOrInsert()
         {
             Dictionary<int, long> xx = new Dictionary<int, long>();
             int sum = 1000;
             for (var index = 0; index < sum; index++) xx[index] = 0;
             for (var index=0; index< sum; index++)
             {
-                List<int> rr = new List<int>(sum);
-                for (var aa = 0; aa < sum; aa++) rr.Add(aa);
-                rr.RandomRearrange();
-                rr.ForEach((a, ind) => xx[ind] += a);
+                xx[index] = index;
             }
-            //Assert.IsTrue(Math.Abs(count / sum - 0.1) < 0.001);
+            var value = xx.FindOrInsert(0, 100);
+            Assert.IsTrue(value == 0);
+
+            value = xx.FindOrInsert(0, ()=> 1000);
+            Assert.IsTrue(value == 0);
+
+
+            value = xx.FindOrInsert(()=> 100, () => 1000);
+            Assert.IsTrue(value == 100);
         }
     }
 }

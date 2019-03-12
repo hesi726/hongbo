@@ -69,9 +69,9 @@ namespace hongbao.CollectionExtension
         /// <returns></returns>
         public static bool HaveDifferent<T>(this List<T> srcList, List<T> destList, Func<T, T, bool> compare=null)
         {
-            if (IListUtil.IsNullOrEmpty(srcList) && IListUtil.IsNullOrEmpty(destList))
+            if (IsNullOrEmpty(srcList) && IsNullOrEmpty(destList))
                 return false;
-            else if (IListUtil.IsNullOrEmpty(srcList)) return true;
+            else if (IsNullOrEmpty(srcList)) return true;
             Different<T> result = new Different<T>();
             if (srcList.Any(a => !destList.Any(b => compare(a, b)))) return true;
             if (destList.Any(a => !srcList.Any(b => compare(a, b))))  return true;
@@ -95,7 +95,7 @@ namespace hongbao.CollectionExtension
         public static Different<T> Different<T>(this List<T> srcList, List<T> destList, Func<T, T, bool> compare)
         {
             Different<T> result = new Different<T>();
-            if (IListUtil.IsNullOrEmpty(srcList) && IListUtil.IsNullOrEmpty(destList))
+            if (IsNullOrEmpty(srcList) && IsNullOrEmpty(destList))
                 return result;
             result.Removed = srcList.Where(a =>
             {
@@ -139,7 +139,7 @@ namespace hongbao.CollectionExtension
         public static Different<T,K> Different<T,K>(this List<T> srcList, List<K> destList, Func<T, K, bool> compare)
         {
             Different<T,K> result = new Different<T,K>();
-            if (IListUtil.IsNullOrEmpty(srcList) && IListUtil.IsNullOrEmpty(destList))
+            if (IsNullOrEmpty(srcList) && IsNullOrEmpty(destList))
                 return result;
             result.Removed = srcList.Where(a => !destList.Any(b => compare(a, b))).ToList();
             result.Added = destList.Where(a => !srcList.Any(b => compare(b, a))).ToList();
@@ -173,7 +173,7 @@ namespace hongbao.CollectionExtension
             Action<K> srcNotExitsAction)
         {
             Different<T, K> result = new Different<T, K>();
-            if (IListUtil.IsNullOrEmpty(srcList) && IListUtil.IsNullOrEmpty(destList))
+            if (IsNullOrEmpty(srcList) && IsNullOrEmpty(destList))
                 return result;
             result.Removed = srcList.Where(a => !destList.Any(b => compare(a, b))).ToList();
             result.Added = destList.Where(a => !srcList.Any(b => compare(b, a))).ToList();
@@ -219,7 +219,7 @@ namespace hongbao.CollectionExtension
             Action<K> srcNotExitsAction)
         {
             Different<T, K> result = new Different<T, K>();
-            if (IListUtil.IsNullOrEmpty(srcList) && IListUtil.IsNullOrEmpty(destList))
+            if (IsNullOrEmpty(srcList) && IsNullOrEmpty(destList))
                 return result;
             result.Removed = srcList.Where(a => !destList.Any(b => compare(a, b))).ToList();
             result.Added = destList.Where(a => !srcList.Any(b => compare(b, a))).ToList();
@@ -244,15 +244,59 @@ namespace hongbao.CollectionExtension
         }
 
 
-            #region 利用ReverseForEach方法对于进行逆序处理
-            /// <summary>
-            /// 对于 IList 里面的每一个元素，倒叙执行给定的操作，
-            /// 但如果该操作返回 false,则不处理后续元素，
-            /// 注意：本函数总会处理第0个元素；
-            /// </summary>
-            /// <param name="iEnum"></param>
-            /// <param name="continueFunc"></param>
-            public static void ReverseForEach<T>(this IList<T> iEnum, Func<T, int, bool> continueFunc)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static bool IsNullOrEmpty<T>(IList<T> array)
+        {
+            return array == null || array.Count == 0;
+        }
+
+        /// <summary>
+        /// 交换值； 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="coll"></param>
+        /// <param name="pos1"></param>
+        /// <param name="pos2"></param>
+        public static void Swap<T>(this IList<T> coll, int pos1, int pos2)
+        {
+            T element = coll[pos1];
+            coll[pos1] = coll[pos2];
+            coll[pos2] = element;
+        }
+
+        /// <summary>
+        /// 将列表里面的元素随机重排；
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="loopCount">随机重排次数，默认为2，越多越随机； </param>
+        public static void RandomRearrange<T>(this IList<T> list, int loopCount = 2)
+        {
+            var random = new Random(); //
+            while (loopCount-- > 0)
+            {
+                int length = list.Count;
+                while (length > 1)
+                {
+                    list.Swap(random.Next(0, length), length - 1);
+                    length--;
+                }
+            }
+        }
+
+        #region 利用ReverseForEach方法对于进行逆序处理
+        /// <summary>
+        /// 对于 IList 里面的每一个元素，倒叙执行给定的操作，
+        /// 但如果该操作返回 false,则不处理后续元素，
+        /// 注意：本函数总会处理第0个元素；
+        /// </summary>
+        /// <param name="iEnum"></param>
+        /// <param name="continueFunc"></param>
+        public static void ReverseForEach<T>(this IList<T> iEnum, Func<T, int, bool> continueFunc)
         {
             int cnt = iEnum.Count;
             for (var index = cnt - 1; index >= 0; index--)

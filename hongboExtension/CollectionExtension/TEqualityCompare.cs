@@ -12,14 +12,20 @@ namespace hongbao.CollectionExtension
     /// <typeparam name="T"></typeparam>
     public class TEqualityCompare<T> : IEqualityComparer<T>
     {
+        /// <summary>
+        /// 比较方法
+        /// </summary>
         Func<T, T, bool> compareFunc;
+        /// <summary>
+        /// 计算 hash的函数;
+        /// </summary>
         Func<T, int> hashcodeFunc;
         /// <summary>
         /// 构造函数； 
         /// </summary>
         /// <param name="compareFunc"></param>
         /// <param name="hashcodeFunc">必须提供，因为将首先使用 hash进行比较;</param>
-        public TEqualityCompare(Func<T, T, bool> compareFunc, Func<T, int> hashcodeFunc)
+        public TEqualityCompare(Func<T, T, bool> compareFunc, Func<T, int> hashcodeFunc = null)
         {
             this.compareFunc = compareFunc;
             this.hashcodeFunc = hashcodeFunc;
@@ -41,6 +47,8 @@ namespace hongbao.CollectionExtension
         /// <returns></returns>
         public int GetHashCode(T obj)
         {
+            if (obj == null) return 0;
+            else if (hashcodeFunc == null) return obj.GetHashCode();
             return this.hashcodeFunc(obj);
         }
     }
