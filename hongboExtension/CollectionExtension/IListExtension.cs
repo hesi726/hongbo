@@ -25,23 +25,7 @@ namespace hongbao.CollectionExtension
             srcList.Add(string.Format(message, pars));
         }
 
-        /// <summary>
-        /// 对列表进行批量操作;
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="batchCount"></param>
-        /// <param name="batchAction"></param>
-        public static void Batch<T>(this IList<T> list, int batchCount, Action<List<T>> batchAction)
-        {
-            var cnt = list.Count / batchCount;
-            if (list.Count % batchCount > 0) cnt = cnt + 1;
-            for (var index = 0; index < cnt; index++)  //获取所有昨天给设备分配的场景列表;
-            {
-                var batchList = list.Skip(index).Take(batchCount).ToList();
-                batchAction(batchList);
-            }
-        }
+        
 
         /// <summary>
         /// 
@@ -50,8 +34,7 @@ namespace hongbao.CollectionExtension
         /// <returns></returns>
         public static object Find(System.Collections.IList array, Func<object, bool> func)
         {
-            int count = array.Count;
-            for (var index = 0; index < count; index++)
+            for (var index = 0; index < array.Count; index++)
             {
                 var ele = array[index];
                 if (func(ele)) return ele;
@@ -255,7 +238,7 @@ namespace hongbao.CollectionExtension
         }
 
         /// <summary>
-        /// 交换值； 
+        /// 交换两个索引处的项； 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="coll"></param>

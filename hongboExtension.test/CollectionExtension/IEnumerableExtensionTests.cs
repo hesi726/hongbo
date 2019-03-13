@@ -27,6 +27,42 @@ namespace hongbao.CollectionExtension.Tests
         System.Collections.IEnumerable xEnum = new string[] { "a", "b" };
 
 
+        /// <summary>
+        /// 对 IEnumerable<T> 进行分批操作;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="batchCount"></param>
+        /// <param name="batchAction"></param>
+        [TestMethod]
+        public void Batch()
+        {
+            var xx = "";
+            var batchCnt = 0;
+            iEnum.Batch(1, (item) => { xx += item.First(); batchCnt++; });
+            Assert.IsTrue(batchCnt == 2 && xx == "ab");
+
+            var aEnum = ArrayUtil.GetIntArray(0, 16);
+            batchCnt = 0;
+            var sum = 0;
+            aEnum.Batch(4, (batchItems) => { var childSum = batchItems.Sum(); sum += childSum; batchCnt++; });
+            Assert.IsTrue(batchCnt == 5 && sum == (0 + 16) * 17 / 2);
+        }
+        [TestMethod]
+        public void Find()
+        {
+            Assert.IsNull(iEnum.Find((item, index) => false));
+            Assert.IsTrue(iEnum.Find((item, index) => true) == "a");
+            AssertUtil.Exception(() =>
+            {
+                var ienumList = iEnum.ToList();
+                Assert.IsTrue(ienumList.Find((item, index) =>
+                {
+                    if (index == 0) ienumList.Add("c"); //修改时将抛出异常;
+                    return item == "c";
+                }) == "c");
+            });
+        }
         [TestMethod()]
         public void ForEach()
         {
@@ -165,15 +201,55 @@ namespace hongbao.CollectionExtension.Tests
             var result = abc.ToString("/");
             Assert.IsTrue(result == "a/b", "ToString后变成 a/b");
         }
-
         [TestMethod()]
-        public void Dicarl()
+        public void Dicar()
+        {
+            var xx = iEnum.Dicarl<string>(iEnum);
+            Assert.IsTrue(xx.Count() == 4);
+        }
+        [TestMethod()]
+        public void Dicar2()
         {
             var xx = iEnum.Dicarl<string, string>(jEnum);
             var yy = xx.Select((a) => a.Item1 + a.Item2).Join("");
             Assert.IsTrue(yy == "aaadbabd", "Dicarl 后变成 [[a,b],[a,d],[b,a],[b,d]]");
         }
 
+        [TestMethod()]
+        public void Dicar3()
+        {
+            IEnumerable<string>[] enumList = new IEnumerable<string>[] {iEnum, iEnum, iEnum};
+            var xx = iEnum.Dicarl<string, string, string>(jEnum, jEnum);
+            Assert.IsTrue(xx.Count() == 8);
+        }
+
+        [TestMethod()]
+        public void Dicar4()
+        {
+            var xx = iEnum.Dicarl<string, string, string, string>(jEnum, jEnum, jEnum);
+            Assert.IsTrue(xx.Count() == 16);
+        }
+        [TestMethod()]
+        public void Dicar5()
+        {
+            var xx = iEnum.Dicarl<string, string, string, string, string>(jEnum, jEnum, jEnum, jEnum);
+            Assert.IsTrue(xx.Count() == 32);
+        }
+
+        [TestMethod()]
+        public void Dicar7()
+        {
+            var xx = iEnum.Dicarl<string, string, string, string, string, string>(jEnum, jEnum, jEnum, jEnum, jEnum);
+            Assert.IsTrue(xx.Count() == 64);
+        }
+        [TestMethod()]
+        public void Dicar8()
+        {
+            var xx = iEnum.Dicarl<string, string, string, string, string, string, string>(jEnum, jEnum, jEnum, jEnum, jEnum, jEnum);
+            Assert.IsTrue(xx.Count() == 128);
+        }
+
+        
         [TestMethod()]
         public void Distinct()
         {
@@ -191,6 +267,28 @@ namespace hongbao.CollectionExtension.Tests
             var yy = xx.DistinctBy(item => item.Age);
             Assert.IsTrue(yy.Count() == 1 && yy.First().Name=="Daiwei", "转换后 再 distinct ，返回 1");
         }
+        [TestMethod()]
+        public void Except()
+        {
+            IEnumerable<Person> xx = new List<Person>
+            {
+                new Person{ Age = 18, Name="Daiwei"},
+                new Person{ Age = 18, Name="Zhao"}
+            };
+            var yy = xx.Except<Person, Person>(xx, (a,b) => false);
+            Assert.IsTrue(yy.Count() == 2 && yy.First().Name == "Daiwei", "Except 不处理任何项");
+
+            xx = new List<Person>
+            {
+                new Person{ Age = 18, Name="Daiwei"},
+                new Person{ Age = 18, Name="Zhao"}
+            };
+            yy = xx.Except(xx, (a, b) => true);
+            Assert.IsTrue(yy.Count() == 0, "Except 处理所有项");
+        }
+
+
+
         [TestMethod()]
         public void ToDictionary()
         {
@@ -211,8 +309,8 @@ namespace hongbao.CollectionExtension.Tests
                 new Person{ Age = 19, Name="Daiwei"},
                 new Person{ Age = 18, Name="Zhao"}
             };
-            var yy = xx.ToDictionary((item, index) => item.Age);
-            Assert.IsTrue(yy.Count() == 1 && yy.First().Value.Name == "Daiwei", "转换后 再 distinct ，返回 1");
+            var yy = xx.ToSortedList((item) => item.Age);
+            Assert.IsTrue(yy.Count() == 2 && yy.Last().Value.Name == "Daiwei", "转换后 再 distinct ，返回 1");
         }
     }
 }

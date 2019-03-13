@@ -63,7 +63,7 @@ namespace hongbao.privileges
         public EnumAuthenResult Authen(IParceAuthenTypeAccordParameterName authenTypeParcer)
         {
             if (privilegeJudge != null && privilegeJudge.IsAdministrator()) return EnumAuthenResult.Authened;
-            var authenResult = AuthenAcion(authenTypeParcer);
+            var authenResult = AuthenAction(authenTypeParcer);
             if (authenResult.HasValue)
             {
                 return ConvertAuthenResult(authenResult.Value);

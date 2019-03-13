@@ -13,7 +13,43 @@ namespace hongbao.CollectionExtension
     public static class IEnumerableExtension
     {
 
+        /// <summary>
+        /// 对 IEnumerable<T> 进行分批操作;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="batchCount"></param>
+        /// <param name="batchAction"></param>
+        public static void Batch<T>(this IEnumerable<T> list, int batchCount, Action<IEnumerable<T>> batchAction)
+        {
+            var enumCount = list.Count();
+            var cnt = enumCount / batchCount;
+            if (enumCount % batchCount > 0) cnt = cnt + 1;
+            for (var index = 0; index < cnt; index++)  //获取所有昨天给设备分配的场景列表;
+            {
+                var batchList = list.Skip(index * batchCount).Take(batchCount).ToList();
+                batchAction(batchList);
+            }
+        }
+
         #region 笛卡尔交集
+        /// <summary>
+        /// 笛卡尔交集;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="iEnum"></param>
+        /// <param name="kEnum"></param>
+        /// <returns></returns>
+        public static IEnumerable<T[]> Dicarl<T>(this IEnumerable<T> iEnum, IEnumerable<T> kEnum)
+        {
+            foreach (T t in iEnum)
+            {
+                foreach (T k in kEnum)
+                {
+                    yield return new T[] { t, k };
+                }
+            }
+        }
         /// <summary>
         /// 笛卡尔交集
         /// </summary>
@@ -228,23 +264,7 @@ namespace hongbao.CollectionExtension
                 }
             }
         }
-        /// <summary>
-        /// 笛卡尔交集;
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="iEnum"></param>
-        /// <param name="kEnum"></param>
-        /// <returns></returns>
-        public static IEnumerable<T[]> Dicarl<T>(this IEnumerable<T> iEnum, IEnumerable<T> kEnum)
-        {
-            foreach(T t in iEnum)
-            {
-                foreach (T k in kEnum)
-                {
-                    yield return new T[] { t, k };
-                }
-            }
-        }
+       
         #endregion
         /// <summary>
         /// 转换后再进行 Distinct;
@@ -292,14 +312,30 @@ namespace hongbao.CollectionExtension
         /// <param name="kEnum"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static IEnumerable<T> Except<T>(this IEnumerable<T> iEnum,
-            IEnumerable<T> kEnum, Func<T, T, bool> func)
+        public static IEnumerable<T> Except<T, K>(this IEnumerable<T> iEnum,
+            IEnumerable<K> kEnum, Func<T, K, bool> func)
         {
             foreach (var t in iEnum)
             {
                 if (!kEnum.Any((a) => func(t, a)))
                     yield return t;
             }
+        }
+
+        /// <summary>
+        /// 根据给定函数查找项目;但是查找过程中不能修改 iEnum;
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static object Find(this System.Collections.IEnumerable iEnum, Func<object, int, bool> func)
+        {
+            int index = 0;
+            foreach(var item in iEnum)  // 不可以修改 iEnum, 当使用 foreach 语法时
+            {
+                if (func(item, index)) return item;
+                index++;
+            }
+            return null;
         }
 
         #region 利用foreach方法对于进行顺序处理
@@ -665,15 +701,13 @@ namespace hongbao.CollectionExtension
         /// <summary>
         /// 将枚举对象转换为SortedList对象； 
         /// </summary>
-        public static SortedList<T, K> ToSortedList<T, K>(this IEnumerable<K> iEnum, Func<K, T> func)
+        public static SortedList<TKey
+            , K> ToSortedList<TKey
+            , K>(this IEnumerable<K> iEnum, Func<K, TKey
+            > keyFunc)
         {
-            SortedList<T, K> sort = new SortedList<T, K>();
-            iEnum.ForEach((a) =>
-            {
-                var t = func(a);
-                sort[t] = a;
-            });
-            return sort;
+            return ToSortedList<K, TKey
+            , K>(iEnum, keyFunc, item => item);
         }
 
         /// <summary>
