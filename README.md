@@ -4,6 +4,9 @@
 #hongboExtension
 对标准类的扩展
 
+#hongboEntityframework
+对 EntityFramework 或者 EFCore 的扩展
+
 # hongboPrivilege
 自己公司使用的权限控制代码  
 因为公司较小，权限变化不大（一般不会定义新的权限或者删除权限）  

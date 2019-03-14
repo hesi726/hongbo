@@ -5,11 +5,15 @@ VisualStudioVersion = 16.0.28705.295
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongboPrivilege", "hongboPrivilege\hongboPrivilege.csproj", "{9787394C-18C1-4F72-8128-98FAED74A2C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hongboPrivilege.Test", "hongboPrivilege.Test\hongboPrivilege.Test.csproj", "{8C45E057-66C6-40D1-8C08-BBAF91392D69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongboPrivilege.Test", "hongboPrivilege.Test\hongboPrivilege.Test.csproj", "{8C45E057-66C6-40D1-8C08-BBAF91392D69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hongboExtension", "hongboExtension\hongboExtension.csproj", "{E0896609-153A-4A68-80CB-CC76363AA6F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongboExtension", "hongboExtension\hongboExtension.csproj", "{E0896609-153A-4A68-80CB-CC76363AA6F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hongboExtension.test", "hongboExtension.test\hongboExtension.test.csproj", "{54D6FB85-2482-4910-8221-0F18F543214C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongboExtension.test", "hongboExtension.test\hongboExtension.test.csproj", "{54D6FB85-2482-4910-8221-0F18F543214C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hongboEntityframework", "hongboEntityframework\hongboEntityframework.csproj", "{2149894E-F7C7-44E8-8756-145792F38060}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{2CACD98B-E1BF-4941-B518-6940D7E6427C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{54D6FB85-2482-4910-8221-0F18F543214C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54D6FB85-2482-4910-8221-0F18F543214C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54D6FB85-2482-4910-8221-0F18F543214C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2149894E-F7C7-44E8-8756-145792F38060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2149894E-F7C7-44E8-8756-145792F38060}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2149894E-F7C7-44E8-8756-145792F38060}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2149894E-F7C7-44E8-8756-145792F38060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CACD98B-E1BF-4941-B518-6940D7E6427C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CACD98B-E1BF-4941-B518-6940D7E6427C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CACD98B-E1BF-4941-B518-6940D7E6427C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CACD98B-E1BF-4941-B518-6940D7E6427C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
