@@ -28,7 +28,8 @@ namespace hongbao.CollectionExtension
         
 
         /// <summary>
-        /// 
+        /// IEnumerable 也有 Find 方法，但该方法不支持修改;
+        /// IListUtil 的 支持在 Find 时进行修改;
         /// </summary>
         /// <param name="array"></param>
         /// <returns></returns>

@@ -77,7 +77,7 @@ namespace hongbao.Vue.ElementUi
         ///输入框关联的label文字
         /// </summary>
         [JsonProperty("label")]
-        public string label { get; set; }
+        public override string label { get; set; }
         ///<summary>
         ///输入框头部图标
         /// </summary>

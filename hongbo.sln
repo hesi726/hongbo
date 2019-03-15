@@ -11,9 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongboExtension", "hongboEx
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongboExtension.test", "hongboExtension.test\hongboExtension.test.csproj", "{54D6FB85-2482-4910-8221-0F18F543214C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hongboEntityframework", "hongboEntityframework\hongboEntityframework.csproj", "{2149894E-F7C7-44E8-8756-145792F38060}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongboEntityframework", "hongboEntityframework\hongboEntityframework.csproj", "{2149894E-F7C7-44E8-8756-145792F38060}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{2CACD98B-E1BF-4941-B518-6940D7E6427C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hongboAsyncMessage", "hongboAsyncMessage\hongboAsyncMessage.csproj", "{99F633EF-9C6F-4274-B085-3173F70897B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hongboMvcExtension", "hongboMvcExtension\hongboMvcExtension.csproj", "{B93859E6-8E28-4440-99FA-82086C6AAF46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{2CACD98B-E1BF-4941-B518-6940D7E6427C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CACD98B-E1BF-4941-B518-6940D7E6427C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CACD98B-E1BF-4941-B518-6940D7E6427C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99F633EF-9C6F-4274-B085-3173F70897B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99F633EF-9C6F-4274-B085-3173F70897B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99F633EF-9C6F-4274-B085-3173F70897B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99F633EF-9C6F-4274-B085-3173F70897B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B93859E6-8E28-4440-99FA-82086C6AAF46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B93859E6-8E28-4440-99FA-82086C6AAF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B93859E6-8E28-4440-99FA-82086C6AAF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B93859E6-8E28-4440-99FA-82086C6AAF46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

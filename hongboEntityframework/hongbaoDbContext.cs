@@ -8,10 +8,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using hongbo.EntityExtension;
 #if NETCOREAPP2_2
 using Microsoft.EntityFrameworkCore;
 using DbModelBuilder = Microsoft.EntityFrameworkCore.ModelBuilder;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 #else
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -50,13 +52,16 @@ namespace hongbao.EntityExtension
         /// </summary>
         public void SetDebug(Action<string> str)
         {
+#if NET472
             this.Database.Log = (msg) =>
             {
                 if (str != null) str(msg);
                 Debug.WriteLine(msg);
                 Console.WriteLine(msg);
             };
+#endif
         }
+
 
 #if NET472
         /// <summary>
@@ -99,7 +104,9 @@ namespace hongbao.EntityExtension
             this.modelBuilder = modelBuilder;
             base.OnModelCreating(modelBuilder);
         }
-        #endregion
+
+       
+#endregion
 
 
         private DateTime? now;
@@ -118,7 +125,7 @@ namespace hongbao.EntityExtension
                 return now.Value;
             }
         }
-        #region SaveChanges和事件处理
+#region SaveChanges和事件处理
 
         /// <summary>
         /// 保存完成时的事件处理委托;
@@ -269,9 +276,9 @@ namespace hongbao.EntityExtension
         {
             
         }
-        #endregion
+#endregion
 
-        #region 其他方法 
+#region 其他方法 
 
         /// <summary>
         /// 查询对象；如果查询不到，则插入对象；  
@@ -335,11 +342,16 @@ namespace hongbao.EntityExtension
         {
             if (!this.ChangeTracker.Entries().Any(a => DbContextUtil.GetEntityType(a.Entity.GetType()) == entityType && ((IId) a.Entity).Id == entity.Id))
             {
-                this.Attach(entity);
+#if NETCOREAPP2_2
+    this.Attach(entity);
+#else
+                this.Set(entityType).Attach(entity);
+#endif
+
                 // this.Set(entityType).Attach(entity); //
             }
         }
-        #endregion
+#endregion
     }
 
 

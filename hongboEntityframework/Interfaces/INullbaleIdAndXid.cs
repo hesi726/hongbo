@@ -1,5 +1,6 @@
 ﻿using hongbao.Json;
 using hongbao.SecurityExtension;
+using hongbo.EntityExtension;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -39,14 +40,14 @@ namespace hongbao.EntityExtension
                 if (string.IsNullOrEmpty(_xid) || (_id != Id && Id > 0))
                 {
                     _id = Id;
-                    _xid = SecurityUtil.CryptIdInGuid(Id, ObjectContext.GetObjectType(this.GetType()));
+                    _xid = SecurityUtil.CryptIdInGuid(Id, EFUtil.GetObjectType(this.GetType()));
                 }
                 return _xid;
             }
             set
             {
                 if (string.IsNullOrEmpty(value)) return;
-                var innerId = SecurityUtil.DecryptIdInGuid(value, ObjectContext.GetObjectType(this.GetType()));
+                var innerId = SecurityUtil.DecryptIdInGuid(value, EFUtil.GetObjectType(this.GetType()));
                 if (innerId >= 0) this.Id = innerId;
             }
         }

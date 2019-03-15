@@ -7,6 +7,7 @@ using StackExchange.Redis;
 using Newtonsoft.Json;
 using hongbao.Vue.Attributes;
 using hongbao.CollectionExtension;
+using hongbo.EntityExtension;
 #if NETCOREAPP2_2
 using Toolbelt.ComponentModel.DataAnnotations.Schema;
 #endif
@@ -44,14 +45,14 @@ namespace hongbao.EntityExtension
                 if (string.IsNullOrEmpty(_xid) || (_id != Id && Id > 0))
                 {
                     _id = Id;
-                    _xid = SecurityUtil.CryptIdInGuid(Id, ObjectContext.GetObjectType(this.GetType()));
+                    _xid = SecurityUtil.CryptIdInGuid(Id, EFUtil.GetObjectType(this.GetType()));
                 }
                 return _xid;
             }
             set
             {
                 if (string.IsNullOrEmpty(value)) return;
-                var innerId = SecurityUtil.DecryptIdInGuid(value, ObjectContext.GetObjectType(this.GetType()));
+                var innerId = SecurityUtil.DecryptIdInGuid(value, EFUtil.GetObjectType(this.GetType()));
                 if (innerId >= 0) this.Id = innerId;
             }
         }
@@ -65,7 +66,7 @@ namespace hongbao.EntityExtension
         /// <returns></returns>
         public virtual string GetKey()
         {
-            return CacheObjectExtension.GetCacheKey(this.GetType(), this.Id.ToString());
+            return EFUtil.GetCacheKey(this.GetType(), this.Id.ToString());
         }
 
         private static JsonSerializerSettings setting = new JsonSerializerSettings
@@ -120,7 +121,7 @@ namespace hongbao.EntityExtension
             {
                 appenx.ForEach((ap) =>
                 {
-                    result.Add((CacheObjectExtension.GetCacheKey(this.GetType(), ap), this.Id));
+                    result.Add((EFUtil.GetCacheKey(this.GetType(), ap), this.Id));
                 });
             }
             return result;

@@ -11,6 +11,8 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.Linq.Expressions;
 using hongbao.SystemExtension;
+using hongbo.EntityExtension;
+using hongbao.CollectionExtension;
 #if NETCOREAPP2_2
 using Microsoft.EntityFrameworkCore;
 #else
@@ -130,8 +132,10 @@ namespace hongbao.EntityExtension
                 //好慢， 改用那个 BulkInsertCopy 试试看 ；
                 if (transaction!=null)
                      context.Database.UseTransaction(transaction);
+#if NET472
                 context.Configuration.ValidateOnSaveEnabled = false;
                 context.Configuration.AutoDetectChangesEnabled = false;
+#endif
                 DbSet<T> set = context.Set<T>();
                 set.AddRange(entities);
                 return context.SaveChangesAsync();
@@ -155,7 +159,7 @@ namespace hongbao.EntityExtension
             where T : class
         {
             if (tList.Count == 0) return 0;
-            var conn = context.Database.Connection;
+            var conn = context.Database.GetDbConnection();
             if (conn is SqlConnection)
             {
                 SqlBulkCopyOptions options = SqlBulkCopyOptions.Default;
@@ -197,17 +201,19 @@ namespace hongbao.EntityExtension
                 //好慢， 改用那个 BulkInsertCopy 试试看 ；
                 if (transaction != null)
                     context.Database.UseTransaction(transaction);
+#if NET472
                 context.Configuration.ValidateOnSaveEnabled = false;
                 context.Configuration.AutoDetectChangesEnabled = false;
+#endif
                 DbSet<T> set = context.Set<T>();
                 set.AddRange(tList);
                 return context.SaveChanges();
             }
         }
 
-        #endregion
+#endregion
 
-        #region 执行原生查询
+#region 执行原生查询
         /// <summary>
         /// 创建  Command 对象； 
         /// </summary>
@@ -215,9 +221,10 @@ namespace hongbao.EntityExtension
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        private static DbCommand CreateCommand(this DbContext context, string sql, object[] parameters = null)
+        private static (DbCommand dbCommand, bool needCloseConnection) CreateCommand(this DbContext context, string sql, object[] parameters = null)
         {
-            var conn = context.Database.Connection;
+            var conn = context.Database.GetDbConnection();
+            bool connIsClose = conn.State == ConnectionState.Closed;
             var command = conn.CreateCommand();
             command.Connection = conn;
             command.CommandTimeout = 0;
@@ -248,11 +255,13 @@ namespace hongbao.EntityExtension
                 command.CommandText = string.Format(CultureInfo.InvariantCulture, command.CommandText, parameterSql);
                 command.Parameters.AddRange(dbParameters); 
             }
+#if NET472
             if (context.Database.CurrentTransaction != null)
             {
                 command.Transaction = context.Database.CurrentTransaction.UnderlyingTransaction;
             }
-            return command;
+#endif
+            return (command, connIsClose);
         }
         /// <summary>
         /// 执行查询,并返回查询结果表；
@@ -308,9 +317,11 @@ namespace hongbao.EntityExtension
         /// <returns></returns>
         public static DataTable ExecuteQuery(this DbContext context, string sql, Func<IDbCommand, IDbDataAdapter> adapterFunc, object[] pars = null)
         {
+            DbCommand cmd = null;
+            bool needCloseConn = false;
             try
             {
-                var cmd = CreateCommand(context, sql, pars);                                
+                (cmd, needCloseConn) = CreateCommand(context, sql, pars);                                
                 IDbDataAdapter adap = adapterFunc(cmd);
                 DataSet ds = new DataSet();
                 adap.Fill(ds);
@@ -318,11 +329,15 @@ namespace hongbao.EntityExtension
             }
             finally
             {
+                if (needCloseConn && cmd != null)
+                {
+                    cmd.Connection.Close();
+                }
             }
         }
-        #endregion
+#endregion
         
-        #region 执行更新
+#region 执行更新
         /// <summary>
         /// 执行更新；
         /// </summary>
@@ -356,9 +371,9 @@ namespace hongbao.EntityExtension
         {
                 return contextAccess.GetDbContext().Database.ExecuteSqlCommand(sql, par);
         }
-        #endregion
+#endregion
 
-        #region 执行SQL实体查询
+#region 执行SQL实体查询
         /// <summary>
         /// 执行查询,并返回查询结果的第一条对象； 
         /// </summary>
@@ -367,8 +382,9 @@ namespace hongbao.EntityExtension
         /// <param name="par">查询参数；</param>
         /// <returns></returns>
         public static T ExecuteScala<T>(this DbContext context, string sql, object[] par = null)
+            where T: class
         {
-                return context.Database.SqlQuery<T>(sql, par).FirstOrDefault();
+            return context.Database.SqlQuery<T>(sql, par).FirstOrDefault();
         }
 
         /// <summary>
@@ -378,9 +394,10 @@ namespace hongbao.EntityExtension
         /// <param name="sql"></param>
         /// <param name="par">查询参数；</param>
         /// <returns></returns>
-        public static T ExecuteScala<T>(this IDbContextGetter contextAccess, string sql, object[] par = null)
+        public static T ExecuteScala<T>(this IDbContextGetter contextAccess, string sql, params object[] par)
+            where T : class
         {
-              return contextAccess.GetDbContext().Database.SqlQuery<T>(sql, par).FirstOrDefault();
+            return contextAccess.GetDbContext().Database.SqlQuery<T>(sql, par).FirstOrDefault();
         }
 
         /// <summary>
@@ -390,15 +407,16 @@ namespace hongbao.EntityExtension
         /// <param name="sql"></param>
         /// <param name="par">查询参数；</param>
         /// <returns></returns>
-        public static List<T> ExecuteQuery<T>(this IDbContextGetter contextAccess, string sql, object[] par = null)
+        public static List<T> ExecuteQuery<T>(this IDbContextGetter contextAccess, string sql, params object[] par)
+            where T: class
         {
             if (par == null) par = new object[] { };
             return contextAccess.GetDbContext().Database.SqlQuery<T>(sql, par).ToList();
         }
-        #endregion
+#endregion
 
         
-        #region 执行原生查询并返回Reader
+#region 执行原生查询并返回Reader
         /// <summary>
         /// 执行查询,并返回查询的一个Raader,因为表可能很大,使得无法Fill到DataTable中；
         /// </summary>
@@ -423,9 +441,11 @@ namespace hongbao.EntityExtension
         /// <returns></returns>
         public static IDataReader ExecuteReader(this DbContext context, string sql, Func<IDbCommand, IDbDataAdapter> adapterFunc, object[] pars=null)
         {
+            DbCommand cmd = null;
+            bool needCloseConn = false;
             try
             {
-                var cmd = CreateCommand(context,sql, pars);
+                (cmd, needCloseConn) = CreateCommand(context,sql, pars);
                 cmd.CommandText = sql;                             
                 IDbDataAdapter adap = adapterFunc(cmd);
                 return cmd.ExecuteReader(CommandBehavior.CloseConnection);
@@ -434,9 +454,9 @@ namespace hongbao.EntityExtension
             {
             }
         }
-        #endregion
+#endregion
 
-        #region 对 DbContext 进行操作的方法
+#region 对 DbContext 进行操作的方法
 
         /// <summary>
         /// 对实体进行给定的操作；并返回操作结果；
@@ -503,7 +523,7 @@ namespace hongbao.EntityExtension
             }
             set.Remove(entity);
         }
-        #endregion
+#endregion
 
 
         /// <summary>
@@ -583,7 +603,7 @@ namespace hongbao.EntityExtension
             set.RemoveRange(objectList);
         }
 
-        #region 用DbContext自带方法进行查找的方法
+#region 用DbContext自带方法进行查找的方法
 
         /// <summary>
         /// 查找对象； 
@@ -965,9 +985,9 @@ namespace hongbao.EntityExtension
         {
             return context.GetDbContext().GetOrInsert<T>(tname, beforeInsert); 
         }
-        #endregion
+#endregion
 
-        #region 
+#region 
 
         /// <summary>
         /// 创建新的Context 或者使用给定的 Context,执行操作; 
@@ -1025,7 +1045,7 @@ namespace hongbao.EntityExtension
             {
                 if (context.Database.CurrentTransaction == null)  //未有事务，在事物中执行;
                 {
-                    context.Database.SetCommandTimeout(120); //两分钟;
+                    context.Database.SetCommandTimeout(120); // = 120; //两分钟;
                     using (var trans = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
                     {
                         try
@@ -1063,7 +1083,7 @@ namespace hongbao.EntityExtension
             {
                 using (var context = new KContext())
                 {
-                    context.Database.CommandTimeout = 120; //两分钟;
+                    context.Database.SetCommandTimeout(120); // = 120; //两分钟;
                     initiateAction?.Invoke(context);
                     if (contextFunc != null)
                         return contextFunc(context);
@@ -1087,7 +1107,7 @@ namespace hongbao.EntityExtension
             {
                 if (context.Database.CurrentTransaction == null)  //未有事务，在事物中执行;
                 {
-                    context.Database.CommandTimeout = 120; //两分钟;
+                    context.Database.SetCommandTimeout(120); // = 120; //两分钟;
                     using (var trans = context.Database.BeginTransaction())
                     {
                         try
@@ -1111,10 +1131,10 @@ namespace hongbao.EntityExtension
             return FuncContext(cFunc, initiateAction, inputContext);
         }
 
-        #endregion
+#endregion
 
 
-        #region 
+#region 
 
         /// <summary>
         /// 创建新的Context 或者使用给定的 Context,执行操作; 
@@ -1158,7 +1178,7 @@ namespace hongbao.EntityExtension
                 {
                     using (var context = new K())
                     {
-                        context.Database.CommandTimeout = 120; //两分钟;
+                        context.Database.SetCommandTimeout(120); // = 120; //两分钟;
                         initiateAction?.Invoke(context);
                         return contextFunc(context);
                     };
@@ -1181,7 +1201,7 @@ namespace hongbao.EntityExtension
             {
                 if (context.Database.CurrentTransaction == null)  //未有事务，在事物中执行;
                 {
-                    context.Database.CommandTimeout = 120; //两分钟;
+                    context.Database.SetCommandTimeout(120); // = 120; //两分钟;
                     using (var trans = context.Database.BeginTransaction())
                     {
                         try
@@ -1205,6 +1225,6 @@ namespace hongbao.EntityExtension
             return await AsyncFuncContext(cFunc, initiateAction, inputContext);
         }
 
-        #endregion
+#endregion
     }
 }

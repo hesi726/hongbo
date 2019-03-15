@@ -80,7 +80,7 @@ namespace hongbao.SystemExtension
             return null;
         }
 
-#if NET45
+#if NET472
         /// <summary>
         /// 当前的 HttpContext; 
         /// </summary>

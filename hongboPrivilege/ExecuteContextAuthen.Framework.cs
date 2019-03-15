@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 ////https://docs.microsoft.com/en-us/dotnet/core/tutorials/libraries#how-to-multitarget
-#if NET45
+#if NET472
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
@@ -100,7 +100,7 @@ namespace hongbao.privileges
         /// 并判断用户是否有权限访问;
         /// </summary>
         /// <returns>null-未定义任何权限Attribute, true-定义了权限Attribute且用户有权限访问, false-定义了权限Attribute且用户无权限访问,</returns>
-        private bool? AuthenAcion(IParceAuthenTypeAccordParameterName authenTypeParcer)
+        private bool? AuthenAction(IParceAuthenTypeAccordParameterName authenTypeParcer)
         {
             var attributes = actionDescriptor.GetCustomAttributes(true)
                 .Where(a => a is AbstractAllowAttribute || a is AuthenQueryAttribute || a is AuthenModifyAttribute)

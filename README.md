@@ -1,11 +1,16 @@
 # hongbo
 自己公司使用的代码，
 
-#hongboExtension
-对标准类的扩展
+#hontboAsyncMessage
+自己公司使用的基于数据库的异步消息处理类（慢，不要用于效率要求比较高的场合)
 
 #hongboEntityframework
 对 EntityFramework 或者 EFCore 的扩展
+
+
+#hongboExtension
+对标准类的扩展
+
 
 # hongboPrivilege
 自己公司使用的权限控制代码  
