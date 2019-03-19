@@ -149,7 +149,7 @@ namespace hongbao.MvcExtension
                     Value = Convert.ToInt32(a)
                 };
             });
-            return new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(names);
+            return JsonConvert.SerializeObject(names);
         }
         #endregion
 

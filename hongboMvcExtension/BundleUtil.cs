@@ -1,17 +1,12 @@
 ﻿using hongbao.CollectionExtension;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 #if NET472
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
 using System.Web.Routing;
 using System.Data.Entity;
 using System.Web.Mvc.Html;
+using System.Web.Optimization;
 #else
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,14 +24,14 @@ using IController = Microsoft.AspNetCore.Mvc.Controller;
 
 namespace hongbao.MvcExtension
 {
-#if NET472    
+#if NET472
 
     /// <summary>
     /// 脚本和CSS的枚举;
     /// </summary>
     public class EnumBundle
     {
-#region 库常量定义
+    #region 库常量定义
         /// <summary>
         /// JQuery库;
         /// </summary>
@@ -70,9 +65,9 @@ namespace hongbao.MvcExtension
                 "~/js/plugins/jQueryEasyUI/config.css"
             }
         };
-#endregion
+    #endregion
 
-#region 
+    #region 
         /// <summary>
         /// 依赖的Bundle;
         /// </summary>
@@ -141,7 +136,7 @@ namespace hongbao.MvcExtension
             {
                 var list = new List<string>();
                 this.Render(list);
-                renderHtmlContent = new HtmlString(list.ToString("\n"));
+                renderHtmlContent = new MvcHtmlString(list.ToString("\n"));
             }
             return renderHtmlContent;
         }
@@ -186,6 +181,8 @@ namespace hongbao.MvcExtension
         {
             return "~/bundles/" + bundle.ToString();
         }
-#endregion
+    #endregion
+
     }
+#endif
 }
