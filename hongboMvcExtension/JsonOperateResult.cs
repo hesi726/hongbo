@@ -1,9 +1,13 @@
-﻿using System;
+﻿#if NET472
+using System.Web.Mvc;
+#else
+using Microsoft.AspNetCore.Mvc;
+#endif
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace hongbao.MvcExtension
 {
@@ -42,7 +46,8 @@ namespace hongbao.MvcExtension
         /// <param name="operResult"></param>
         public static implicit operator JsonResult(JsonOperateResult<T> operResult)
         {
-            return JsonResultExtension.Data(operResult.Data);
+            var result = new JsonResult<T>(operResult);
+            return result;
         }
 
         /// <summary>

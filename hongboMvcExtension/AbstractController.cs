@@ -165,47 +165,9 @@ namespace hongbao.MvcExtension
 #endregion
 
 #region JsonResult方法
-        /// <summary>
-        /// 创建一个JsonResult对象,对其执行一个委托Action方法，返回该JsonResult对象；
-        /// </summary>
-        /// <param name="action">需要在JsonResult对象上执行的一个委托Action操作</param>
-        /// <returns></returns>
-        public ActionResult JsonResult(Action<JsonResult> action)
-        {
-            JsonResult result = new JsonResult(null); // { JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-            SetJsonResultValue(result, null);
-            action(result);
-            return result;
-        }
+        
 
-        /// <summary>
-        /// 创建一个JsonResult对象,对其执行一个委托Function方法,设置该方法的返回为 JsonResult的Data字段，返回该JsonResult对象；
-        /// </summary>
-        /// <param name="function">需要在JsonResult对象上执行的一个委托Func方法方法</param>
-        /// <returns></returns>
-        public ActionResult JsonResult(Func<JsonResult, object> function)
-        {
-            JsonResult result = new JsonResult(null); // { JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-            SetJsonResultValue(result, function(result));
-            return result;
-        }
-
-        /// <summary>
-        /// 设置 JsonResult 的 Data 或者 value;
-        /// </summary>
-        /// <param name="jsonResult"></param>
-        /// <param name="obj"></param>
-        public static void SetJsonResultValue(JsonResult jsonResult, object obj)
-        {
-
-#if NET472
-             jsonResult.Data = obj;
-             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-#else
-            jsonResult.Value = obj;
-#endif
-        }
-#endregion
+        
     }
    
 
@@ -237,3 +199,5 @@ namespace hongbao.MvcExtension
         Deactive
     }
 }
+
+#endregion

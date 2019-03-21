@@ -27,7 +27,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
 using MvcHtmlString = Microsoft.AspNetCore.Html.IHtmlContent;
-using MvcHtmlString = Microsoft.AspNetCore.Html.IHtmlContent;
+using IHtmlString = Microsoft.AspNetCore.Html.IHtmlContent;
 #endif
 
 namespace hongbao.MvcExtension
@@ -221,7 +221,8 @@ namespace hongbao.MvcExtension
         }
         #endregion
 
-        #region 输出Bundle的名称;
+#if NET472
+#region 输出Bundle的名称;
         /// <summary>
         /// 
         /// </summary>
@@ -232,9 +233,10 @@ namespace hongbao.MvcExtension
         {
             return bundle.RenderHtmlString();
         }
-        #endregion
+#endregion
+#endif
 
-        #region 输出子页面
+#region 输出子页面
         ///// <summary>
         ///// 必须和ControlFactory 以及 AbstractController 一起使用,
         ///// 在一个视图中，无论调用此方法多少次,对于同一个partialViewName,总只会输出一次;
@@ -271,9 +273,9 @@ namespace hongbao.MvcExtension
         //        }
         //    }
         //}
-        #endregion
+#endregion
 
-        #region Json格式化
+#region Json格式化
 
         /// <summary>
         /// Json格式化，属性使用日期格式;
@@ -281,7 +283,7 @@ namespace hongbao.MvcExtension
         ///  <param name="html"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static MvcHtmlString RawJsonWithDateFormat(this HtmlHelper html, object obj)
+        public static IHtmlString RawJsonWithDateFormat(this HtmlHelper html, object obj)
         {
             IsoDateTimeConverter timeConvert = new IsoDateTimeConverter();
             timeConvert.DateTimeFormat = "yyyy-MM-dd";
@@ -312,6 +314,6 @@ namespace hongbao.MvcExtension
             timeConvert.DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
             return JsonConvert.SerializeObject(obj, Newtonsoft.Json.Formatting.None, timeConvert);
         }
-        #endregion
+#endregion
     }
 }

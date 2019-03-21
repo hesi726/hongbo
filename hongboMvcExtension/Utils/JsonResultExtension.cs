@@ -30,30 +30,24 @@ namespace hongbao.MvcExtension
     public static class JsonResultExtension
     {
         /// <summary>
-        /// 根据给定对象，产生 JsonResult 对象；
+        /// 设置 JsonResult 的 Data 或者 value;
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public static JsonResult Data(object data)
+        /// <param name="jsonResult"></param>
+        /// <param name="obj"></param>
+        public static JsonResult BuildJsonResult(object data)
         {
-            var result = new JsonResult(null);
-            result.SetJsonResultValue(data);
-            return result;
-            // return new JsonResult<object> { JsonRequestBehavior = JsonRequestBehavior.AllowGet, Data = data };
+
+#if NET472
+            var jsonResult = new JsonResult();
+             jsonResult.Data = data;
+             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return jsonResult;
+#else
+            var jsonResult = new JsonResult(data);
+            return jsonResult;
+#endif
         }
 
-        /// <summary>
-        /// 根据给定对象，产生 JsonResult&lt;T&gt; 对象；
-        /// </summary>
-        /// <typeparam name="T">泛型类型；</typeparam>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public static JsonResult<T> Data<T>(T data)
-        {
-            var result = new JsonResult<T>();
-            result.SetJsonResultValue(data);
-            return result;
-        }
 
         /// <summary>
         /// 设置 JsonResult 的 Data 或者 value;

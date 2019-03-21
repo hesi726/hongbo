@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 #if NET472
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
 using System.Web.Routing;
@@ -34,7 +33,7 @@ namespace hongbao.MvcExtension
     /// 简单来说，其在创建一个控制器时，如果控制器是一个 AbstractController类型的控制器，则会自动创建一个 DbContext子类的实例对象，并注入到 AbstractController 控制器的 DbContext中； 
     /// 在控制器释放时，如果控制器是一个 AbstractController类型的控制器，则会自动调用 AbstractController 控制器的 DbContext 的 Dispose 方法；
     /// </summary>
-    public class ControlFactory<K> : DefaultControllerFactory        
+    public class ControlFactory<K> : DefaultControllerFactory   
         where K : DbContext
     {        
         /// <summary>
@@ -45,8 +44,8 @@ namespace hongbao.MvcExtension
         {
            
         }
-
-        /// <summary>
+#if NET472
+          /// <summary>
         /// 带有 返回DbContext子类的委托Func方法的 构造函数；
         /// </summary>
         /// <param name="t">返回DbContext子类的委托Func方法</param>
@@ -54,6 +53,16 @@ namespace hongbao.MvcExtension
         {
             this.dbContextFactory = t;
         }
+#else 
+        /// <summary>
+        /// 带有 返回DbContext子类的委托Func方法的 构造函数；
+        /// </summary>
+        /// <param name="t">返回DbContext子类的委托Func方法</param>
+        public ControlFactory(Func<K> t): base(null, null)
+        {
+            this.dbContextFactory = t;
+        }
+#endif
 
         /// <summary>
         /// 带有 返回DbContext子类的委托Func方法,并在控制器创建之后，返回之前对控制器进行指定操作的委托方法的 构造函数；
@@ -69,25 +78,23 @@ namespace hongbao.MvcExtension
         private Action<IController> controlAction;
 
         /// <summary>
-        /// 控制器创建的钩子方法；
+        /// 创建控制器之后的回调方法;
         /// </summary>
-        /// <param name="requestContext"></param>
-        /// <param name="controllerName"></param>
+        /// <param name="result"></param>
         /// <returns></returns>
-        public override IController CreateController(RequestContext requestContext, string controllerName)
+        private IController ActionWhenCreateController(IController result)
         {
-            var result =  base.CreateController(requestContext, controllerName);           
             if (result is AbstractMvcControllerWithDbContext<K>)
-            {                
-                var bc = ((AbstractMvcControllerWithDbContext<K>)result);                
-                //允许对控制器进行跨域的调用； 
-                var Response = requestContext.HttpContext.Response;
-                Response.ClearContent();
-              //  Response.AddHeader("Access-Control-Allow-Origin", "*");
-              //  Response.AddHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-              //  Response.AddHeader("Access-Control-Allow-Headers", "*");
+            {
+                var bc = ((AbstractMvcControllerWithDbContext<K>)result);
+                //允许对控制器进行跨域的调用；   
+                //var Response = requestContext.HttpContext.Response;  //
+                //Response.ClearContent();   //清除内容，应该无用，因为刚刚创建的控制器应该肯定没有内容
+                //  Response.AddHeader("Access-Control-Allow-Origin", "*");  //使用 IIS 的配置：
+                //  Response.AddHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+                //  Response.AddHeader("Access-Control-Allow-Headers", "*");
 
-                if (AbstractMvcControllerWithDbContext<K>.ThreadLocal.Value == null)
+                if (AbstractMvcControllerWithDbContext<K>.ThreadLocal.Value == null)  //使用相同的 DbContext; 
                 {
                     bc.DbContext = dbContextFactory();
                     AbstractMvcControllerWithDbContext<K>.ThreadLocal.Value = bc.DbContext;
@@ -96,23 +103,18 @@ namespace hongbao.MvcExtension
                 {
                     bc.DbContext = AbstractMvcControllerWithDbContext<K>.ThreadLocal.Value;
                 }
-                if (System.Configuration.ConfigurationManager.AppSettings["debug"] != null
-                    && System.Configuration.ConfigurationManager.AppSettings["debug"] == "1")
-                {
-                    bc.DbContext.Database.Log = (msg) => { Debug.WriteLine(msg); };
-                }
-                
+
                 bc.Activate();
             }
             if (this.controlAction != null) controlAction(result);
-            return result; 
+            return result;
         }
 
         /// <summary>
-        /// 控制器释放时候的钩子方法；
+        /// 释放控制器时候的回调;
         /// </summary>
         /// <param name="controller"></param>
-        public override void ReleaseController(IController controller)
+        private void ActionWhenReleaseController(IController controller)
         {
             if (controller is AbstractMvcControllerWithDbContext<K>)
             {
@@ -121,10 +123,50 @@ namespace hongbao.MvcExtension
                 if (bc.DbContext != null)
                 {
                     bc.DbContext.Dispose();
-                    bc.DbContext = null; 
+                    bc.DbContext = null;
                 }
             }
+        }
+#if NET472
+        /// <summary>
+        /// 控制器创建的钩子方法；
+        /// </summary>
+        /// <param name="requestContext"></param>
+        /// <param name="controllerName"></param>
+        /// <returns></returns>
+        public override IController CreateController(RequestContext requestContext, string controllerName)
+        {
+            var result =  base.CreateController(requestContext, controllerName);           
+            return ActionWhenCreateController(result);
+        }
+
+
+        /// <summary>
+        /// 控制器释放时候的钩子方法；
+        /// </summary>
+        /// <param name="controller"></param>
+        public override void ReleaseController(IController controller)
+        {
+            ActionWhenReleaseController(controller);
             base.ReleaseController(controller);
-        }        
+        } 
+#else
+        public object Create(ControllerContext context)
+        {
+            var controller = base.CreateController(context) as Controller;
+            return ActionWhenCreateController(controller);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="controller"></param>
+        public void Release(ControllerContext context, object controller)
+        {
+            ActionWhenReleaseController(controller as Controller);
+            base.ReleaseController(context, controller);
+        }
+#endif
     }
 }

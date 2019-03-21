@@ -41,11 +41,18 @@ namespace hongbao.MvcExtension
                 return setting; 
             };
         }
-        
-        public JsonResult(): base(null)
-        {
 
+#if NETCOREAPP2_2
+        public JsonResult(T data) : base(data)
+        {
+            
         }
+#else
+        public JsonResult(T data) : base()
+        {
+            this.TData = data;
+        }
+#endif
 
         /// <summary>
         /// 泛型数据； 
@@ -66,11 +73,6 @@ namespace hongbao.MvcExtension
             {
                 throw new ArgumentNullException("context");
             }
-            //if ((this.JsonRequestBehavior == JsonRequestBehavior.DenyGet) && string.Equals(context.HttpContext.Request.HttpMethod, 
-            //    "GET", StringComparison.OrdinalIgnoreCase))
-            //{
-            //    throw new InvalidOperationException("不允许进行GET操作");
-            //}
             HttpResponseBase response = context.HttpContext.Response;
             if (!string.IsNullOrEmpty(this.ContentType))
             {
@@ -80,15 +82,9 @@ namespace hongbao.MvcExtension
             {
                 response.ContentType = "application/json";
             }
-            //if (this.ContentEncoding != null)
-            //{
-            //    response.ContentEncoding = this.ContentEncoding;
-            //}
             var data = this.GetJsonResultValue();
             if (data != null)
             {
-                //JavaScriptSerializer serializer = new JavaScriptSerializer();
-                //response.Write(serializer.Serialize(this.Data));
                 IsoDateTimeConverter timeConvert = new IsoDateTimeConverter();
                 timeConvert.DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
                 string content = "";
@@ -97,8 +93,6 @@ namespace hongbao.MvcExtension
                     content  = ((SerializeToJson)data).SerializeToJson();
                 }
                 else content = JsonConvert.SerializeObject(content, Newtonsoft.Json.Formatting.None, timeConvert);
-                
-
                 response.Write(content);
             }
         }
