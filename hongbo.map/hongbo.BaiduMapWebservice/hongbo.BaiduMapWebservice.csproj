@@ -8,7 +8,7 @@
 	为避开百度地图WEBSERVICE 调用次数限制，支持多个 百度地图 WEBSERVICE 的 appid </Description>
     <Copyright>http://www.gnu.org/licenses/licenses.html</Copyright>
     <PackageProjectUrl>https://github.com/hesi726/hongbo</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/hesi726/hongbo/tree/master/hongbo.map/BaiduMapWebservice</RepositoryUrl>
+    <RepositoryUrl>https://github.com/hesi726/hongbo/tree/master/hongbo.map/hongbo.BaiduMapWebservice</RepositoryUrl>
     <PackageProjectUrl>https://github.com/hesi726/hongbo</PackageProjectUrl>
     <Authors>daiwei</Authors>
     <AssemblyVersion>0.5.0.6</AssemblyVersion>
@@ -39,6 +39,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoreMapWebservice\hongbo.CoreMapWebservice.csproj" />
+    <ProjectReference Include="..\hongbo.CoreMapWebservice\hongbo.CoreMapWebservice.csproj" />
   </ItemGroup>
 </Project>
