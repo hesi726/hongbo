@@ -37,7 +37,7 @@ namespace CoreMapWebservice
         /// <returns></returns>
         public virtual Dictionary<string, string> GetParameters()
         {
-            var result = DictionaryUtil.GetDictionary(model);
+            var result = MapAssistantUtil.GetDictionary(model);
             if (RequiredTimestamp)
             {
                 // 用户未设置timestamp时自动增加，若已经设置timestamp，则使用用户设置的值

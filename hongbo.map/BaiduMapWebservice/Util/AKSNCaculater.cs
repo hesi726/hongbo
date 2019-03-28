@@ -53,8 +53,8 @@ namespace BaiduMapWebservice.Util
         /// <returns></returns>
         public static string CaculateAKSN(string ak, string sk, string url, IDictionary<string, string> querystring_arrays)
         {
-            var queryString = DictionaryUtil.HttpBuildQuery(querystring_arrays);
-            var str = DictionaryUtil.UrlEncode(url + "?" + queryString + sk);
+            var queryString = MapAssistantUtil.HttpBuildQuery(querystring_arrays);
+            var str = MapAssistantUtil.UrlEncode(url + "?" + queryString + sk);
             return MD5(str);
         }
 
@@ -91,7 +91,7 @@ namespace BaiduMapWebservice.Util
             var sn = CaculateAKSN(ak, sk, request.Address, dictionary);
             dictionary.Add("sn", sn);
 
-            var querystring = DictionaryUtil.HttpBuildQuery(dictionary);
+            var querystring = MapAssistantUtil.HttpBuildQuery(dictionary);
             return querystring;
         }
 

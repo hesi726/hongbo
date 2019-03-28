@@ -1,8 +1,39 @@
-# hongbo
-自己公司使用的代码，
+#hongbo
+hongbo 公司使用的代码，
 
-#hontboAsyncMessage
-自己公司使用的基于数据库的异步消息处理类（慢，不要用于效率要求比较高的场合)
+#hongbo.core
+hongbo 公司使用的核心库
+
+
+
+#hongbo.map
+	地图库(目前只有 高德 和 百度)
+
+#hongbo.map.AmapWebservice 
+	    高德地图Webservice 后台服务区接口
+		 顺便说一下，高德的地址解析 和 地址逆解析 返回的结果很不规范，
+		 例如:
+			 AddressComponent 中的  businessAreas 字段，
+			 有时候是 
+
+			 "businessAreas":{"location":"113.22920880838318,23.08934754391219","name":"芳村","id":"440103"}  
+			 或者这样，
+			 "businessAreas":[{"location":"113.22920880838318,23.08934754391219","name":"芳村","id":"440103"},{"location":"113.27621431593793,23.13001418476728","name":"二三路","id":"440104"}]  
+			 或者这样:
+			 "businessAreas": [[]]  
+
+#hongbo.map.BaiduMapWebservice
+	百度地图Webservice 后台服务区接口
+
+#hongbo.cooperate
+	和一些合作平台的合作库
+
+#hongbo.cooperate.youzan
+	有赞商城的服务接口库（支持到 4.0, 后续未维持合作）
+
+
+	#
+			自己公司使用的基于数据库的异步消息处理类（慢，不要用于效率要求比较高的场合)
 
 #hongboEntityframework
 对 EntityFramework 或者 EFCore 的扩展

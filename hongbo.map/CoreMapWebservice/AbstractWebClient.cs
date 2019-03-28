@@ -125,7 +125,7 @@ namespace CoreMapWebservice
             where TResponse : IResponse
         {
             var dictionary = BuildQueryParameter(request);
-            return DictionaryUtil.HttpBuildQuery(dictionary);
+            return MapAssistantUtil.HttpBuildQuery(dictionary);
         }
 
 

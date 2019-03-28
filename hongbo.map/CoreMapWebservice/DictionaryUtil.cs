@@ -6,7 +6,7 @@ using CoreMapWebservice.Exceptions;
 
 namespace CoreMapWebservice
 {
-    public static class DictionaryUtil
+    public static class MapAssistantUtil
     {
         /// <summary>
         /// 获取给定对象的属性和值;
