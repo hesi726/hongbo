@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.28705.295
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hongbo.map", "hongbo.map", "{41A835C6-8A26-4225-AF8C-379820E25FE7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AMapWebservice", "hongbo.map\AmapWebservice\AMapWebservice.csproj", "{E1E09150-5294-44F2-8554-EBE032081FB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.AMapWebservice", "hongbo.map\hongbo.AmapWebservice\hongbo.AMapWebservice.csproj", "{E1E09150-5294-44F2-8554-EBE032081FB7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AMapWebserviceTest", "hongbo.map\AMapWebserviceTest\AMapWebserviceTest.csproj", "{D6502260-5DD3-4690-92FF-2F324326D6D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.AMapWebserviceTest", "hongbo.map\hongbo.AMapWebserviceTest\hongbo.AMapWebserviceTest.csproj", "{D6502260-5DD3-4690-92FF-2F324326D6D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaiduMapWebservice", "hongbo.map\BaiduMapWebservice\BaiduMapWebservice.csproj", "{EE90D110-5F2D-4858-9623-A6C83D84FA7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.BaiduMapWebservice", "hongbo.map\hongbo.BaiduMapWebservice\hongbo.BaiduMapWebservice.csproj", "{EE90D110-5F2D-4858-9623-A6C83D84FA7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiduMapWebserviceTest", "hongbo.map\BaiduMapWebserviceTest\BaiduMapWebserviceTest.csproj", "{FB9D04E5-07EF-4064-AB0F-CBD936392002}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hongbo.BaiduMapWebserviceTest", "hongbo.map\hongbo.BaiduMapWebserviceTest\hongbo.BaiduMapWebserviceTest.csproj", "{FB9D04E5-07EF-4064-AB0F-CBD936392002}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hongbo.cooperate", "hongbo.cooperate", "{46D7095F-0410-4C48-BEEB-5FBB0EDBF99E}"
 EndProject
@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.json", "hongbo.core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.json.test", "hongbo.core\hongbo.json.test\hongbo.json.test.csproj", "{9BD9681B-EF32-433A-B7A2-0C28C338769F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreMapWebservice", "hongbo.map\CoreMapWebservice\CoreMapWebservice.csproj", "{D89BBFB7-47CC-42D7-B803-2114C994EEDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.CoreMapWebservice", "hongbo.map\hongbo.CoreMapWebservice\hongbo.CoreMapWebservice.csproj", "{D89BBFB7-47CC-42D7-B803-2114C994EEDD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongboPrivilege", "hongbo.logic\hongboPrivilege\hongboPrivilege.csproj", "{3AC3A071-AA4B-41F7-9C80-D6026B41C7CB}"
 EndProject

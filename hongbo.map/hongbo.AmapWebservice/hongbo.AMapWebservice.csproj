@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>hongbo.AMapWebservice</AssemblyName>
+    <RootNamespace>hongbo.AMapWebservice</RootNamespace>
+    <Description>高德地图的Webservice的c#</Description>
+    <Copyright>http://www.gnu.org/licenses/licenses.html</Copyright>
+    <PackageProjectUrl>https://github.com/hesi726/hongbo</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hesi726/hongbo/tree/master/hongbo.map/AmapWebservice</RepositoryUrl>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <AssemblyVersion>0.5.0.1</AssemblyVersion>
+    <FileVersion>0.5.0.1</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.5.0.1</Version>
+    <PackageId>hongbo.AMapWebservice</PackageId>
+    <Authors>daiwei</Authors>
+    <Company>hongbo</Company>
+    <Product>hongbo.AMapWebservice</Product>
+    <PackageIconUrl>https://raw.githubusercontent.com/hesi726/hongbo/master/hongbo.ico</PackageIconUrl>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageTags>Amap,Webservice,C#,高德</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\hongbo.core\hongbo.json\hongbo.json.csproj" />
+    <ProjectReference Include="..\CoreMapWebservice\hongbo.CoreMapWebservice.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
