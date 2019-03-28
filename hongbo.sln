@@ -41,6 +41,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.ef", "hongbo.core\ho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.mvc", "hongbo.core\hongbo.mvc\hongbo.mvc.csproj", "{6EC1CA17-3ADE-46EB-B1CE-1B5E84593642}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.drawing", "hongbo.core\hongbo.drawing\hongbo.drawing.csproj", "{9DFCC999-5985-49DB-9554-4499437689B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hongbo.template", "hongbo.template", "{D3C68429-994D-48A5-BBF0-5957B4160818}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.project.template", "hongbo.template\hongbo.project.template\hongbo.project.template.csproj", "{E85D5928-3D57-42AB-98D2-170206D7003D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hongbo.drawing.test", "hongbo.core\hongbo.drawing.test\hongbo.drawing.test.csproj", "{7A363496-1A26-4C53-94D7-8A310A94D22A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.wechat", "hongbo.cooperate\hongbo.wechat\hongbo.wechat.csproj", "{1AC0F14A-2B04-420D-83EE-0DB790AAB69E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +117,22 @@ Global
 		{6EC1CA17-3ADE-46EB-B1CE-1B5E84593642}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EC1CA17-3ADE-46EB-B1CE-1B5E84593642}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EC1CA17-3ADE-46EB-B1CE-1B5E84593642}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DFCC999-5985-49DB-9554-4499437689B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DFCC999-5985-49DB-9554-4499437689B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DFCC999-5985-49DB-9554-4499437689B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DFCC999-5985-49DB-9554-4499437689B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E85D5928-3D57-42AB-98D2-170206D7003D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E85D5928-3D57-42AB-98D2-170206D7003D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E85D5928-3D57-42AB-98D2-170206D7003D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E85D5928-3D57-42AB-98D2-170206D7003D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A363496-1A26-4C53-94D7-8A310A94D22A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A363496-1A26-4C53-94D7-8A310A94D22A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A363496-1A26-4C53-94D7-8A310A94D22A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A363496-1A26-4C53-94D7-8A310A94D22A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AC0F14A-2B04-420D-83EE-0DB790AAB69E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AC0F14A-2B04-420D-83EE-0DB790AAB69E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AC0F14A-2B04-420D-83EE-0DB790AAB69E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AC0F14A-2B04-420D-83EE-0DB790AAB69E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +153,10 @@ Global
 		{7B6ABAC8-DDDC-4410-9BE2-45CBE5E8DAC5} = {9E00EC54-8C07-4088-95FD-FF14904C1BA4}
 		{5B6C8A16-C75B-412E-85BD-5B19F66D3983} = {9E00EC54-8C07-4088-95FD-FF14904C1BA4}
 		{6EC1CA17-3ADE-46EB-B1CE-1B5E84593642} = {9E00EC54-8C07-4088-95FD-FF14904C1BA4}
+		{9DFCC999-5985-49DB-9554-4499437689B2} = {9E00EC54-8C07-4088-95FD-FF14904C1BA4}
+		{E85D5928-3D57-42AB-98D2-170206D7003D} = {D3C68429-994D-48A5-BBF0-5957B4160818}
+		{7A363496-1A26-4C53-94D7-8A310A94D22A} = {9E00EC54-8C07-4088-95FD-FF14904C1BA4}
+		{1AC0F14A-2B04-420D-83EE-0DB790AAB69E} = {46D7095F-0410-4C48-BEEB-5FBB0EDBF99E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F29AB03-D213-4B55-94AB-3A8691E445C0}

@@ -1,13 +1,7 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using hongbao.Drawing.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace hongbao.DrawingExtension
+namespace hongbao.DrawingTest.Utils
 {
     /// <summary>
     /// 视频的工具类； 

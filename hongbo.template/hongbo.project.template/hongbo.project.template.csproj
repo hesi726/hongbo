@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>项目模板;</Description>
+    <AssemblyVersion>0.19.0327.1807</AssemblyVersion>
+    <FileVersion>0.19.0327.1807</FileVersion>
+    <Version>0.19.0327</Version>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Copyright>http://www.gnu.org/licenses/licenses.html</Copyright>
+    <PackageProjectUrl>https://github.com/hesi726/hongbo</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hesi726/hongbo/tree/master/hongbo.core/hongbo.json</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/hesi726/hongbo</PackageProjectUrl>
+
+    <AssemblyVersion>0.5.0.1</AssemblyVersion>
+    <FileVersion>0.5.0.1</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.5.0.1</Version>
+    <PackageId>hongbo.json</PackageId>
+    <Authors>daiwei</Authors>
+    <Company>hongbo</Company>
+    <Product>hongbo.json</Product>
+    <PackageIconUrl>https://raw.githubusercontent.com/hesi726/hongbo/master/hongbo.ico</PackageIconUrl>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.Annotations">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.2.0\ref\netcoreapp2.2\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Attributes\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+</Project>

@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BaiduMapWebservice;
+using hongbo.BaiduMapWebservice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BaiduMapWebservice.Response.Models;
-using BaiduMapWebservice.Util;
+using hongbo.BaiduMapWebservice.Response.Models;
+using hongbo.BaiduMapWebservice.Utils;
 
 namespace BaiduMapWebservice.Tests
 {

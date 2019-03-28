@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hongbao.DrawingExtension
+namespace hongbao.Drawing.Utils
 {
     /// <summary>
     /// 视频的工具类； 

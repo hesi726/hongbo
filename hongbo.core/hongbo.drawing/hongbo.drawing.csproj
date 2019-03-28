@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>hongbo.json 的  Json 工具包，对 System.Drawing 进行了一些扩展;</Description>
+    <AssemblyVersion>0.19.0327.1807</AssemblyVersion>
+    <FileVersion>0.19.0327.1807</FileVersion>
+    <Version>0.19.0327</Version>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Copyright>http://www.gnu.org/licenses/licenses.html</Copyright>
+    <PackageProjectUrl>https://github.com/hesi726/hongbo</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hesi726/hongbo/tree/master/hongbo.core/hongbo.json</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/hesi726/hongbo</PackageProjectUrl>
+
+    <AssemblyVersion>0.5.0.1</AssemblyVersion>
+    <FileVersion>0.5.0.1</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.5.0.1</Version>
+    <PackageId>hongbo.json</PackageId>
+    <Authors>daiwei</Authors>
+    <Company>hongbo</Company>
+    <Product>hongbo.json</Product>
+    <PackageIconUrl>https://raw.githubusercontent.com/hesi726/hongbo/master/hongbo.ico</PackageIconUrl>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.Annotations">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.2.0\ref\netcoreapp2.2\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NReco.VideoInfo.LT" Version="1.1.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="ThoughtWorks.QRCode.Core" Version="1.0.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Attributes\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\hongbo.core\hongbo.core.csproj" />
+  </ItemGroup>
+</Project>

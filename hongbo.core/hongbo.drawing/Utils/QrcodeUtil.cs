@@ -1,15 +1,9 @@
 ﻿using hongbao.WebExtension;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ThoughtWorks.QRCode.Codec;
-using ThoughtWorks.QRCode.Codec.Data;
 
-namespace hongbao.DrawingExtension
+namespace hongbao.Drawing.Utils
 {
     /// <summary>
     /// 识别二维码;

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hongbao.DrawingExtension
+namespace hongbao.Drawing.Utils
 {
     /// <summary>
     /// 图像工具;
@@ -20,12 +20,14 @@ namespace hongbao.DrawingExtension
         #region GetPicThumbnail
 
         /// <summary>
-        /// 压缩图片到给定尺寸以下；         
+        /// 压缩图片到给定尺寸以下； 
+        /// 每次图片尺寸尺寸减半（默认)，直到图片尺寸小于给定尺寸;
         /// </summary>
         /// <param name="sFile">文件路径</param>
         /// <param name="size">压缩后的文件大小;</param>
+        /// <param name="compressStep">默认为 1/2</param>
         /// <returns></returns>
-        public static bool CompressImageToLowerSize(string sFile, int size)
+        public static bool CompressImageToLowerSize(string sFile, int size, decimal compressStep = 0.5m)
         {
             if (size < 5000) return true;
             FileInfo fi = new FileInfo(sFile);
@@ -37,7 +39,7 @@ namespace hongbao.DrawingExtension
             //按比例缩放
             Size tem_size = new Size(iSource.Width, iSource.Height);
             int dHeight = iSource.Height, dWidth = iSource.Width;
-            bool result = GetPicThumbnail(sFile, sFile, dHeight / 2, dWidth / 2, 100);
+            bool result = GetPicThumbnail(sFile, sFile, (int) (dHeight * compressStep), (int) ( dWidth * compressStep), 100);
             fi = new FileInfo(sFile);
             if (fi.Length < size) return true;
             else return CompressImageToLowerSize(sFile, size); 
@@ -60,6 +62,7 @@ namespace hongbao.DrawingExtension
             System.Drawing.Image iSource = System.Drawing.Image.FromStream(sFile);
             return GetPicThumbnail(iSource, dFile, dHeight, dWidth, flag);
         }
+
         /// <summary>
         /// 无损压缩图片,可以写入到相同文件；
         /// </summary>
