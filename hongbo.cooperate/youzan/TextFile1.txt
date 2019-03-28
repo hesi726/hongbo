@@ -1,0 +1,42 @@
+﻿//EDITPLUS
+//ORIGINAL LINE: @JsonProperty[(][^"]*("([^)]+))
+\[Newtonsoft.Json.JsonProperty\(\1)\] //
+
+vs2017  -- 替换 @JsonProperty, 
+//ORIGINAL LINE: @JsonProperty[(][^"]*("([^)]+))
+[Newtonsoft.Json.JsonProperty($1)]//
+
+替换无效的引用
+(\s)(using.*(google|fasterxml|apache).*)
+$1//$2
+
+转为 C# 后，注释放在了后面，改为放在前面;
+(\[(Newtonsoft[^(]*))((.*?)(\r\n))((.*\r\n)+?)((.*\<summary\>((.*\r\n)+?)).*summary\>)([^a]{2})
+$8$12[X$2$3$6
+
+注意，还需要替换 XNewtonsoft 为 Newtonsfot
+
+(using.*(google|apache).*)
+//$1\tusing global::youzan.com.youzan.open.sdk.model;\n
+
+public virtual Multimap<string, ByteWrapper> toFileParams()
+public virtual IDictonary<string,ByteWrapper> toFileParams()
+
+public virtual Multimap<string, ByteWrapper> toFileParams()
+public virtual IDictonary<string,ByteWrapper> toFileParams()
+
+Multimap<string, ByteWrapper> @params = ArrayListMultimap.create();
+Multimap<string, ByteWrapper> @params = ArrayListMultimap.create<string, ByteWrapper>();
+
+替换为 泛型类 
+\s(\S+)\s*:\s*AbstractAPI
+$0 <$1Params, $1Result>
+
+
+
+
+//属性的代码产生计算表达式，用于EXCEL中；
+="///<sumary>" & CHAR(10) & "///" & C2 & CHAR(10) & "///" & D2 & CHAR(10) & "///</sumary>" & CHAR(10) & " public " & SUBSTITUTE(SUBSTITUTE(B2,"number","decimal"),"Long","long") & " " & A2 & "  { get; set; }"
+
+//状态的代码产生计算表达式，用于EXCEL中；
+="///<sumary>" & CHAR(10)  & "///" & A2 & CHAR(10) & "///</sumary>" & CHAR(10) & " public const string TRADE_ORDER_STATE_" & B2 & " ='" & B2 & "';" & CHAR(10)
