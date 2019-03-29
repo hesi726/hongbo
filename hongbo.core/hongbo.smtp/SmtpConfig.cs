@@ -28,47 +28,81 @@ using System.IO;
 	/// and the log file will grow very quickly if a lot of email messages are 
 	/// being sent. PLEASE USE THE LOGGING FEATURE FOR DEBUGGING ONLY.
 	/// </summary>
-	class SmtpConfig
+	public class SmtpConfig
 	{
 
-		private SmtpConfig()
+        /// <summary>
+        /// 当前线程中发送邮件所使用的 SMTP 配置类;
+        /// </summary>
+        [ThreadStatic]
+        public static SmtpConfig Current;
+
+		public SmtpConfig()
 		{}
 		
 		///<value>Stores the default SMTP host</value>
-		public static string 	SmtpHost 			= "localhost";
+		public string SmtpHost { get; set; } = "localhost";
 
 		///<value>Stores the default SMTP port</value>
-		public static int 		SmtpPort 			= 25;
+		public int 		SmtpPort { get; set; } = 25;
 
-		///<value>Flag used to turn piplelining on and off. See RFC 2920 for more info</value>
-		public static bool		EnablePipelining	= false;
+        /// <summary>
+        /// 当邮箱需要认证时，认证用户名称;
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
+        /// 当邮箱需要认证时，认证用户密码;
+        /// </summary>
+        public string Password { get; set; }
+
+        ///<value>Flag used to turn piplelining on and off. See RFC 2920 for more info</value>
+        public bool		EnablePipelining { get; set; } = false;
 
 		///<value>Flag used for turning on and off logging to a text file.
 		/// The caller must have proper permissions for this to work</value>
-		public static bool		LogToText			= false;
+		public bool LogToText { get; set; } = false;
 
 		///<value>Path to use when logging to a text file. 
 		/// The caller must have proper permissions for this to work</value>
-		public static string 	LogPath 			= @"../logs/SmtpLog.txt";
+		public string LogPath { get; set; } = @"../logs/SmtpLog.txt";
 
-		public static long		LogMaxSize			= 1048576; // one meg
+		public long LogMaxSize { get; set; } = 1048576; // one meg
 		
 		///<value>Path used to store temp files used when sending email messages.
 		/// The default value is the temp directory specified in the Environment variables.</value>
-		public static string	TempPath 			= Path.GetTempPath();
+		public string TempPath { get; set; } = Path.GetTempPath();
 		
 		///<value>Flag used to turn on and off address format verification.
 		/// If it is turned on all addresses must meet RFC 822 format.
 		/// The default value is false.
 		/// WARNING: Turning this on will decrease performance.</value>
-		public static bool		VerifyAddresses		= false;
+		public bool VerifyAddresses { get; set; } = false;
 		
 		///<value>Version of this OpenSmtp SMTP .Net component</value>
 		//public static readonly string Version		= "OpenSmtp.net version 01.09.6";
-		public static readonly string Version		= "whadshel hsk 1.00";
+		public string Version { get; set; } = "hongbo daiwei 1.00";
 		
 		///<value>Mailer header added to each message sent</value>
 		//internal static string 	X_MAILER_HEADER		= "X-Mailer: OpenSmtp.net";
-		internal static string 	X_MAILER_HEADER		= "X-Mailer: hsk.net";
-	}
+		internal string X_MAILER_HEADER { get; set; } = "X-Mailer: hxtt.net";
+
+        /// <value>Stores send timeout for the connection to the SMTP server in milliseconds.
+		/// The default value is 10000 milliseconds.</value>
+		public int SendTimeout { get; set; }  = 50000;
+
+        /// <value>Stores send timeout for the connection to the SMTP server in milliseconds.
+        /// The default value is 10000 milliseconds.</value>
+        public int RecieveTimeout { get; set; } = 50000;
+
+        /// <value>Stores send timeout for the connection to the SMTP server in milliseconds.
+		/// The default value is 10000 milliseconds.</value>
+		public int ReceiveBufferSize { get; set; } = 1024;
+
+        /// <value>Stores send timeout for the connection to the SMTP server in milliseconds.
+        /// The default value is 10000 milliseconds.</value>
+        public int SendBufferSize { get; set; } = 1024;
+
+
+    }
 }

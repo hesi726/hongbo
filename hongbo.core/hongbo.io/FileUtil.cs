@@ -1,10 +1,6 @@
-﻿using hongbao.SecurityExtension;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace hongbao.IOExtension
@@ -647,27 +643,6 @@ namespace hongbao.IOExtension
             }
         }
 
-        /// <summary>
-        /// 生成指定文件的MD5Code
-        /// </summary>
-        /// <param name="path">文件地址</param>
-        /// <returns>MD5码</returns>
-        public static string GETFileMD5Code(string path)
-        {
-            return SecurityUtil.PhpMD5File(path);/*
-            var content = readFileBinaryContent(path);
-            return SecurityUtil.PhpMD5File(path)
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            FileStream fst = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            md5.ComputeHash(fst);
-            fst.Close();
-            byte[] hash = md5.Hash;
-            md5.Clear();
-            StringBuilder sb = new StringBuilder();
-            foreach (byte byt in hash)
-                sb.Append(String.Format("{0:X1}", byt));
-            return sb.ToString();*/
-        }
     }
 
     /// <summary>

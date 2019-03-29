@@ -129,7 +129,7 @@ ITEM_SKU_INFO			SKU_UPDATE
 		"box_price":"0.00",
 		"pic_path":"https://img.yzcdn.cn/upload_files/2017/06/19/Fme9JZz7T1rB8sSLnsnCk2gILNp_.png",
 		"feedback_num":0,
-		"receiver_mobile":"18173220830",
+		"receiver_mobile":"18173220822",
 		"confirm_time":"",
 		"sign_time":"",
 		"seller_flag":0,

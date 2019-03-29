@@ -12,7 +12,7 @@ namespace hongbao.WebExtension
     /// http://www.CodeHighlighter.com/
     /// 图形验证器的类
     /// </summary>
-    public static class ImageVerifyUtility
+    public static class ImageVerifyUtil
     {
         /// <summary>
         /// 生成随机码

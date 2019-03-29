@@ -51,109 +51,55 @@ namespace OpenSmtp.Net
     public class Smtp
 	{
 		internal TcpClient 	tcpc;
-		internal string 	host     =  "smtp.iguest.cc";// "smtp.139.com"; //mail.whadshel.com";
-		internal int 		port     = 25;
-		internal string 	username =  "support@iguest.cc";//"13610239726@139.com"; //"symail@whadshel.com";
-		private  string 	password =  "Daizhao1234"; // "daizhao1234";//12it#$";
+        //internal string 	host     =  "smtp.iguest.cc";
+        //internal int 		port     = 25;
+        //internal string 	username =  "support@iguest.cc";
+        //private  string 	password =  "Daizhao1234"; // ;
 
-		internal int 		sendTimeout = 50000;
-		internal int 		recieveTimeout = 50000;
-		internal int 		receiveBufferSize = 1024;
-		internal int 		sendBufferSize = 1024;
-		
-        /// <summary>
-        /// 
-        /// </summary>
-        public void initiateSmtp()
-        {
-            if (ConfigurationManager.AppSettings["smtp_server"] != null)
-                host = ConfigurationManager.AppSettings["smtp_server"];
-            if (ConfigurationManager.AppSettings["smtp_username"] != null)
-                username = ConfigurationManager.AppSettings["smtp_username"];
-            if (ConfigurationManager.AppSettings["smtp_password"] != null)
-                password = ConfigurationManager.AppSettings["smtp_password"];
-        }
-		/// <summary>Default constructor</summary>
-		/// <example>
-		/// <code>
-		/// 	Smtp smtp = new Smtp();
-		/// 	smtp.Host = "mail.OpenSmtp.com";
-		/// 	smtp.Port = 25;
-		/// </code>
-		/// </example>
-		public Smtp()
+        //internal int 		sendTimeout = 50000;
+        //internal int 		recieveTimeout = 50000;
+        //internal int 		receiveBufferSize = 1024;
+        //internal int 		sendBufferSize = 1024;
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public void initiateSmtp()
+        //{
+        //    if (ConfigurationManager.AppSettings["smtp_server"] != null)
+        //       smtpConfig.SmtpHost= ConfigurationManager.AppSettings["smtp_server"];
+        //    if (ConfigurationManager.AppSettings["smtp_username"] != null)
+        //        username = ConfigurationManager.AppSettings["smtp_username"];
+        //    if (ConfigurationManager.AppSettings["smtp_password"] != null)
+        //        password = ConfigurationManager.AppSettings["smtp_password"];
+        //}
+
+        SmtpConfig smtpConfig;
+        /// <summary>Default constructor</summary>
+        /// <example>
+        /// <code>
+        /// 	Smtp smtp = new Smtp();
+        /// 	smtp.Host = "mail.OpenSmtp.com";
+        /// 	smtp.Port = 25;
+        /// </code>
+        /// </example>
+        public Smtp(SmtpConfig smtpConfig)
 		{
-            initiateSmtp();
+            SmtpConfig.Current = smtpConfig;
+            this.smtpConfig = smtpConfig;
         }
 		
-		
-		/// <summary>Finalizer</summary>
-		~Smtp()
-		{}
-        
-
-        /// <summary>Constructor specifying a host and port</summary>
+	        /// <summary>Constructor specifying asmtpConfig.SmtpHostand port</summary>
         /// <example>
         /// <code>
         /// 	Smtp smtp = new Smtp("mail.OpenSmtp.com", 25);
         /// </code>
         /// </example>
-        public Smtp(string host, int port) 
+        public Smtp(string host, int port) : this(new SmtpConfig {  SmtpHost = host, SmtpPort = port })
 		{
-			this.host = host;
-			this.port = port;
 		}
 
-		//========================================================================
-		// PROPERTIES
-		//========================================================================
-
-		/// <value>Stores the Host address SMTP server. The default value is "localhost"</value>
-		/// <example>"mail.OpenSmtp.com"</example>
-		public string Host
-		{
-			get { return(this.host); }
-			set { this.host = value; }
-		}		
-
-		/// <value>Stores the Port of the host SMTP server. The default value is port 25</value>
-		public int Port
-		{
-			get { return(this.port); }
-			set { this.port = value; }
-		}
 		
-		/// <value>Stores send timeout for the connection to the SMTP server in milliseconds.
-		/// The default value is 10000 milliseconds.</value>
-		public int SendTimeout
-		{
-			get { return this.sendTimeout; }
-			set { sendTimeout = value; }
-		}
-
-		/// <value>Stores send timeout for the connection to the SMTP server in milliseconds.
-		/// The default value is 10000 milliseconds.</value>
-		public int RecieveTimeout
-		{
-			get { return this.recieveTimeout; }
-			set { recieveTimeout = value; }
-		}
-
-		/// <value>Stores the username used to authenticate on the SMTP server.
-		/// If no authentication is needed leave this value blank.</value>
-		public string Username
-		{
-			get { return this.username; }
-			set { username = value; }
-		}
-
-		/// <value>Stores the password used to authenticate on the SMTP server.
-		/// If no authentication is needed leave this value blank.</value>
-		public string Password
-		{
-			//			get { return this.password; }
-			set { password = value; }
-		}
 
 		//========================================================================
 		// EVENTS
@@ -221,7 +167,7 @@ namespace OpenSmtp.Net
 		/// </example>
 		public void SendMail(string from, string to, string subject, string body)
 		{
-            if (string.IsNullOrEmpty(from)) from = username; 
+            if (string.IsNullOrEmpty(from)) from = this.smtpConfig.Username; 
 			MailMessage msg = new MailMessage(from, to); 
 			msg.subject = subject;
 			msg.HtmlBody = body;
@@ -229,25 +175,7 @@ namespace OpenSmtp.Net
 			SendMail(msg);
 		}
 		
-		/// <summary>Sends a mail message using supplied MailMessage and Smtp properties</summary>
-		/// <param name="msg">MailMessage instance</param>
-		/// <param name="host">SMTP host address</param>
-		/// <param name="port">Port used to connect to host</param>
-		/// <example>
-		/// <code>
-		///		MailMessage msg = new MailMessage("support@OpenSmtp.com", "recipient@OpenSmtp.com");
-		///		msg.Subject = "Hi";
-		///		msg.Body = "Hello Joe Smith."
-		/// 	Smtp smtp = new Smtp();
-		///		smtp.SendMail(msg, "mail.OpenSmtp.com", 25);
-		/// </code>
-		/// </example>
-		public void SendMail(MailMessage msg, string host, int port)
-		{
-			this.host = host;
-			this.port = port;
-			SendMail(msg);
-		}
+		
 		
 
 		/// <summary>Sends a mail message using supplied MailMessage</summary>
@@ -263,7 +191,7 @@ namespace OpenSmtp.Net
 		/// </example>
 		public void SendMail(MailMessage msg)
 		{
-			if (SmtpConfig.EnablePipelining) 
+			if (SmtpConfig.Current.EnablePipelining) 
 			{ 
 				SendMailPipeline(msg); 
 			}
@@ -272,7 +200,7 @@ namespace OpenSmtp.Net
 				NetworkStream nwstream = GetConnection();
 				CheckForError(ReadFromStream(ref nwstream), ReplyConstants.HELO_REPLY);
 
-				WriteToStream(ref nwstream, "HELO " + host + "\r\n");
+				WriteToStream(ref nwstream, "HELO " +smtpConfig.SmtpHost+ "\r\n");
 				CheckForError(ReadFromStream(ref nwstream), ReplyConstants.OK);
 
 				// Authentication is used if the u/p are supplied
@@ -301,41 +229,6 @@ namespace OpenSmtp.Net
 			}
 		}
 
-		/*public static string  saveMessage(System.Web.UI.Page page,MailMessage msg,string pk,string zt,string type)//PK值为sqh,hth之类,方便查询,zt 为当前状态,type为邮件类型
-		{
-			string bfid = "";
-			string mailcc  = "";
-			string mailbcc ="";
-			string mailto  ="";
-			string wjdz="";
-			string strbody ="";
-			string htmlbody ="";
-			if(msg.body!=null&&msg.body!="") strbody =msg.body;
-
-			string mailsender=page.Session["user_id"].ToString();
-			string fromemail=PublicClass.getDs("413",new string[]{"人员ID",mailsender}).Tables[0].Rows[0][0].ToString();
-
-			for (int i=0;i<msg.To.Count;i++)
-			{
-				mailto += msg.To[i]+",";
-			}
-			for (int i=0;i<msg.ccList.Count;i++)
-			{
-				mailcc += msg.ccList[i]+",";
-			}
-			for (int i=0;i<msg.bccList.Count;i++)
-			{
-				mailbcc += msg.bccList[i]+",";
-			}
-			if(msg.htmlBody!=null&&msg.htmlBody!="")
-			{
-				wjdz =saveMailtxt(msg.HtmlBody,pk);
-				htmlbody = msg.HtmlBody;
-			}
-			DataTable bfdt = crm.csp.executeAssignQuery("1244",new string []{"pk",pk,"zt",zt,"body",htmlbody,"user",page.Session["user_id"].ToString(),"mailto",mailto,"mailfrom",fromemail,"mailcc",mailcc,"mailbcc",mailbcc,"yjlx",type,"wjdz",wjdz,"subject",msg.subject.ToString(),"strbody",strbody});
-			if(bfdt.Rows.Count==1) bfid = bfdt.Rows[0][0].ToString();
-			return bfid;
-		}*/
 
             /// <summary>
             /// 
@@ -373,7 +266,7 @@ namespace OpenSmtp.Net
 			NetworkStream nwstream = GetConnection();
 			CheckForError(ReadFromStream(ref nwstream), ReplyConstants.HELO_REPLY);
 
-			WriteToStream(ref nwstream, "EHLO " + host + "\r\n");
+			WriteToStream(ref nwstream, "EHLO " +smtpConfig.SmtpHost+ "\r\n");
 			string serverResponse = ReadFromStream(ref nwstream);
 			CheckForError(serverResponse, ReplyConstants.PIPELINING);
 			CheckForError(serverResponse, ReplyConstants.OK);
@@ -410,12 +303,7 @@ namespace OpenSmtp.Net
 		/// </code>
 		/// </example>
 		public void Reset()
-		{
-			host 	 = null;
-			port	 = 25;
-			username = null;
-			password = null;
-			
+		{						
 			CloseConnection();
 		}
 		
@@ -427,33 +315,20 @@ namespace OpenSmtp.Net
 			tcpc = new TcpClient();
 
 			try
-			{
-				if (host == null)
-				{ host = SmtpConfig.SmtpHost; }
-
-				if (port == 0)
-				{ port = SmtpConfig.SmtpPort; }
-
-				if (host != null && port != 0)
-				{
-					tcpc.Connect(host, port);
-					LogMessage("connecting to:" + host + ":" + port, ""); 
-					tcpc.ReceiveTimeout= recieveTimeout;
-					tcpc.SendTimeout = sendTimeout;
-					tcpc.ReceiveBufferSize = receiveBufferSize;
-					tcpc.SendBufferSize = sendBufferSize;
+			{				
+					tcpc.Connect(smtpConfig.SmtpHost, smtpConfig.SmtpPort);
+					LogMessage("connecting to:" + smtpConfig.SmtpHost + ":" + smtpConfig.SmtpPort, ""); 
+					tcpc.ReceiveTimeout= smtpConfig.RecieveTimeout;
+					tcpc.SendTimeout = smtpConfig.SendTimeout;
+					tcpc.ReceiveBufferSize = smtpConfig.ReceiveBufferSize;
+					tcpc.SendBufferSize = smtpConfig.SendBufferSize;
 
 					LingerOption lingerOption = new LingerOption(true, 10);
 					tcpc.LingerState = lingerOption;
-				}
-				else
-				{
-					throw new SmtpException("Cannot use SendMail() method without specifying target host and port");
-				}
 			}
 			catch(SocketException e)
 			{
-				throw new SmtpException("Cannot connect to specified smtp host(" + host + ":" + port + ").", e);
+				throw new SmtpException("Cannot connect to specified smtp host(" +smtpConfig.SmtpHost+ ":" + smtpConfig.SmtpPort + ").", e);
 			}
 
 			OnConnect(EventArgs.Empty);
@@ -477,16 +352,16 @@ namespace OpenSmtp.Net
 
 		private bool AuthLogin(ref NetworkStream nwstream)
 		{
-			if (this.username != null && this.username.Length > 0 && this.password != null && this.password.Length > 0)
-			{
+			if (!string.IsNullOrEmpty(smtpConfig.Username)  && string.IsNullOrEmpty(smtpConfig.Password))
+            {
 				WriteToStream(ref nwstream, "AUTH LOGIN\r\n");
 				if (AuthImplemented(ReadFromStream(ref nwstream)))
 				{
-					WriteToStream(ref nwstream, Convert.ToBase64String(Encoding.ASCII.GetBytes(this.username.ToCharArray())) + "\r\n");
+					WriteToStream(ref nwstream, Convert.ToBase64String(Encoding.ASCII.GetBytes(smtpConfig.Username.ToCharArray())) + "\r\n");
 
 					CheckForError(ReadFromStream(ref nwstream), ReplyConstants.SERVER_CHALLENGE);
 
-					WriteToStream(ref nwstream, Convert.ToBase64String(Encoding.ASCII.GetBytes(this.password.ToCharArray())) + "\r\n");
+					WriteToStream(ref nwstream, Convert.ToBase64String(Encoding.ASCII.GetBytes(smtpConfig.Password.ToCharArray())) + "\r\n");
 					CheckForError(ReadFromStream(ref nwstream), ReplyConstants.AUTH_SUCCESSFUL);
 					
 					OnAuthenticated(EventArgs.Empty);
@@ -505,7 +380,7 @@ namespace OpenSmtp.Net
                 EmailAddress recipient = emailAddress;
 				WriteToStream(ref nwstream, "RCPT TO: <" + recipient.address + ">\r\n");
 
-				if (!SmtpConfig.EnablePipelining) 
+				if (!SmtpConfig.Current.EnablePipelining) 
 				{
 					// potential 501 error (not valid sender, bad email address) below:
 					CheckForError(ReadFromStream(ref nwstream), ReplyConstants.OK);
@@ -595,7 +470,7 @@ namespace OpenSmtp.Net
 		private void LogMessage(string msg, string src)
 		{
 			Log log = new Log();
-			if (SmtpConfig.LogToText)	{ log.logToTextFile(SmtpConfig.LogPath, msg, src); }
+			if (SmtpConfig.Current.LogToText)	{ log.logToTextFile(SmtpConfig.Current.LogPath, msg, src); }
 		}
 		
 		/**

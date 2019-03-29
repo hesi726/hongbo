@@ -84,7 +84,7 @@ namespace OpenSmtp.Net
 		/// </example>
 		public EmailAddress(string address)
 		{
-			if (SmtpConfig.VerifyAddresses)
+			if (SmtpConfig.Current.VerifyAddresses)
 			{
 				initregex();		
 				Parse(address);
@@ -100,7 +100,7 @@ namespace OpenSmtp.Net
 		/// </example>
 		public EmailAddress(string address, string name)
 		{
-			if (SmtpConfig.VerifyAddresses)
+			if (SmtpConfig.Current.VerifyAddresses)
 			{
 				initregex();
 				Parse(address);
@@ -117,7 +117,7 @@ namespace OpenSmtp.Net
 		{
 			get { return(this.address); }
 			set { 
-					if (SmtpConfig.VerifyAddresses)
+					if (SmtpConfig.Current.VerifyAddresses)
 					{ Parse(value); }
 					this.address = value; 
 				}

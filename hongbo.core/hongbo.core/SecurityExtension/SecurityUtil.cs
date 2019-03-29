@@ -1,5 +1,4 @@
-﻿using hongbao.IOExtension;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -8,6 +7,7 @@ using hongbao.CollectionExtension;
 using hongbao.SystemExtension;
 using HashidsNet;
 using hongbao.Reflection;
+using hongbao.IOExtension;
 
 namespace hongbao.SecurityExtension
 {

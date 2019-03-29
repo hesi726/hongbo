@@ -51,5 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\hongbo.core\hongbo.core.csproj" />
+    <ProjectReference Include="..\hongbo.io\hongbo.io.csproj" />
   </ItemGroup>
 </Project>

@@ -17,7 +17,6 @@ namespace hongbao.Drawing.Utils
         /// <returns></returns>
         public static string Scan(string url)
         {
-
             var bytes = HttpUtil.ReadBinary(url);
             using (var ms = new MemoryStream(bytes))
             {

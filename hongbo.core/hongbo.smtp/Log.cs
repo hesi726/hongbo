@@ -43,7 +43,7 @@ using System.IO;
 				{
 					// If the log file exists make sure it is not over the maximum allowable size
 					if (File.Exists(path)) {	
-						if (new FileInfo(path).Length < SmtpConfig.LogMaxSize) {
+						if (new FileInfo(path).Length < SmtpConfig.Current.LogMaxSize) {
 							WriteToFile(path, msg, source);
 						}
 					}

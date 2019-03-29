@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\youzan\youzan.csproj" />
+    <ProjectReference Include="..\youzan\hongbo.Youzan.csproj" />
   </ItemGroup>
 
 </Project>

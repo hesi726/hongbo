@@ -464,7 +464,7 @@ namespace OpenSmtp.Net
              }
 
 			sb.Append("Date: " + DateTime.Now.ToUniversalTime().ToString("R") + "\r\n");
-			sb.Append(SmtpConfig.X_MAILER_HEADER + "\r\n");
+			sb.Append(SmtpConfig.Current.X_MAILER_HEADER + "\r\n");
 
 			if (notification)
 			{
