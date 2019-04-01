@@ -2,41 +2,39 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>hongbo 公司的短信发送库,暂时只支持云测短信平台;</Description>
-    <AssemblyVersion>0.19.0327.1807</AssemblyVersion>
-    <FileVersion>0.19.0327.1807</FileVersion>
-    <Version>0.19.0327</Version>
-    <PackageLicenseExpression></PackageLicenseExpression>
-   
+    <AssemblyName>hongbo.Sms</AssemblyName>
+    <RootNamespace>hongbo.Sms</RootNamespace>
+    <Description>高德地图的Webservice的c#</Description>
     <Copyright>http://www.gnu.org/licenses/licenses.html</Copyright>
     <PackageProjectUrl>https://github.com/hesi726/hongbo</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/hesi726/hongbo/tree/master/hongbo.cooperate/hongbo.Sms</RepositoryUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/hesi726/hongbo/master/hongbo.ico</PackageIconUrl>
-    <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    
+    <RepositoryUrl>https://github.com/hesi726/hongbo/tree/master/hongbo.map/hongbo.AmapWebservice</RepositoryUrl>
+    <PackageLicenseExpression></PackageLicenseExpression>
     <AssemblyVersion>0.5.0.1</AssemblyVersion>
     <FileVersion>0.5.0.1</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Version>0.5.0.1</Version>
-    <PackageId>hongbo.Sms</PackageId>
+    <PackageId>hongbo.Smsx</PackageId> 
     <Authors>daiwei</Authors>
     <Company>hongbo</Company>
-    <Product>hongbo.Sms</Product>
+    <!-- <Product>hongbo.Sms</Product> -->
+    <PackageIconUrl>https://raw.githubusercontent.com/hesi726/hongbo/master/hongbo.ico</PackageIconUrl>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageTags>Amap,Webservice,C#,高德</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>    
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\hongbo.core\hongbo.core\hongbo.core.csproj" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="..\..\license.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\hongbo.core\hongbo.core\hongbo.core.csproj" />
-  </ItemGroup>
 </Project>
+

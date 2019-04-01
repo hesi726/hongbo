@@ -55,7 +55,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.smtp", "hongbo.core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.io", "hongbo.core\hongbo.io\hongbo.io.csproj", "{DD008564-AF8A-4B8A-AD87-4B74221F1C6E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.Sms", "hongbo.cooperate\hongbo.sms\hongbo.Sms.csproj", "{93B2D9D4-A2ED-437F-8272-7D44B4F4351B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.Sms", "hongbo.cooperate\hongbo.Sms\hongbo.Sms.csproj", "{1E760118-783B-42DF-9C71-03F89B25455D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,10 +147,10 @@ Global
 		{DD008564-AF8A-4B8A-AD87-4B74221F1C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD008564-AF8A-4B8A-AD87-4B74221F1C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD008564-AF8A-4B8A-AD87-4B74221F1C6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93B2D9D4-A2ED-437F-8272-7D44B4F4351B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93B2D9D4-A2ED-437F-8272-7D44B4F4351B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93B2D9D4-A2ED-437F-8272-7D44B4F4351B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93B2D9D4-A2ED-437F-8272-7D44B4F4351B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E760118-783B-42DF-9C71-03F89B25455D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E760118-783B-42DF-9C71-03F89B25455D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E760118-783B-42DF-9C71-03F89B25455D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E760118-783B-42DF-9C71-03F89B25455D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -177,7 +177,7 @@ Global
 		{1AC0F14A-2B04-420D-83EE-0DB790AAB69E} = {46D7095F-0410-4C48-BEEB-5FBB0EDBF99E}
 		{B0C3263F-ABC8-4C11-A7B2-C838589E6189} = {9E00EC54-8C07-4088-95FD-FF14904C1BA4}
 		{DD008564-AF8A-4B8A-AD87-4B74221F1C6E} = {9E00EC54-8C07-4088-95FD-FF14904C1BA4}
-		{93B2D9D4-A2ED-437F-8272-7D44B4F4351B} = {46D7095F-0410-4C48-BEEB-5FBB0EDBF99E}
+		{1E760118-783B-42DF-9C71-03F89B25455D} = {46D7095F-0410-4C48-BEEB-5FBB0EDBF99E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F29AB03-D213-4B55-94AB-3A8691E445C0}
