@@ -14,7 +14,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Version>0.5.0.1</Version>
-    <PackageId>hongbo.Smsx</PackageId> 
+    <PackageId>hongbo.Sms</PackageId> 
     <Authors>daiwei</Authors>
     <Company>hongbo</Company>
     <!-- <Product>hongbo.Sms</Product> -->

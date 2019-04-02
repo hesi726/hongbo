@@ -44,6 +44,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.drawing", "hongbo.core\hongbo.drawing\hongbo.drawing.csproj", "{9DFCC999-5985-49DB-9554-4499437689B2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hongbo.template", "hongbo.template", "{D3C68429-994D-48A5-BBF0-5957B4160818}"
+	ProjectSection(SolutionItems) = preProject
+		nugetpack.bat = nugetpack.bat
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hongbo.project.template", "hongbo.template\hongbo.project.template\hongbo.project.template.csproj", "{E85D5928-3D57-42AB-98D2-170206D7003D}"
 EndProject
