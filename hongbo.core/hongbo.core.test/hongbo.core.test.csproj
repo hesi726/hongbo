@@ -24,4 +24,8 @@
     <Folder Include="DrawingExtension\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\hongbo.core\hongbo.core.csproj" />
+  </ItemGroup>
+
 </Project>

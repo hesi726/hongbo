@@ -21,6 +21,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/hesi726/hongbo/master/hongbo.ico</PackageIconUrl>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageTags>Amap,Webservice,C#,高德</PackageTags>
+    <License>license.txt</License>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />

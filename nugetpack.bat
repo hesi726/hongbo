@@ -16,6 +16,7 @@ set hour=%hour: =%
 set version=0.%year:~2,2%%date:~5,2%.%day%%hour%.%minute%%time:~6,2%
 echo %version%
 del %tempdir%\*  /Q
+rem 下面语句不能去掉,去掉会有打包错误,说需要定义 license
 set license=http://www.gnu.org/licenses/licenses.html
 set PackageProjectUrl=https://github.com/hesi726/hongbo
 set RepositoryUrl=https://github.com/hesi726/hongbo/tree/master/hongbo.map/hongbo.AmapWebservice
@@ -29,7 +30,7 @@ for /f "delims=\, tokens=6,7" %%i in (%str%) do (
 )
 rem https://github.com/hesi726/hongbo/tree/master/hongbo.map/hongbo.AmapWebservice
 echo %RepositoryUrl%
-set PackageLicenseFile=license.txt
+set  PackageLicenseFile=license.txt
 rem PackageLicenseFile=%PackageLicenseFile%;
 rem GeneratePackageOnBuild=true;
 dotnet build %1 -c Release -o %tempdir% -property:Authors=daiwei;Company=hongbo;Version=%version%;AssemblyVersion="%version%";FileVersion="%version%";Copyright="%license%";PackageProjectUrl="%PackageProjectUrl%";RepositoryUrl=%RepositoryUrl%;PackageRequireLicenseAcceptance=true
